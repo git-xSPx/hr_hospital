@@ -1,7 +1,7 @@
 <odoo>
 
     <record id="hr_hospital_doctor_view_list" model="ir.ui.view">
-        <field name="name">hr.hospital.doctor.view.list</field>
+        <field name="name">hr_hospital.doctor.view.list</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
             <list string="Doctors">
@@ -15,7 +15,7 @@
     </record>
 
     <record id="hr_hospital_doctor_view_form" model="ir.ui.view">
-        <field name="name">hr.hospital.doctor.view.form</field>
+        <field name="name">hr_hospital.doctor.view.form</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
             <form string="Doctor">
@@ -52,17 +52,17 @@
     </record>
 
     <record id="hr_hospital_doctor_view_search" model="ir.ui.view">
-        <field name="name">hr.hospital.doctor.view.search</field>
+        <field name="name">hr_hospital.doctor.view.search</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
             <search string="Search Doctors">
                 <field name="name"/>
-                <field name="hrh_doctor_specialty"/>
+<!--                <field name="hrh_doctor_specialty"/>-->
                 <separator/>
                 <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Specialization" name="group_specialty" context="{'group_by': 'hrh_doctor_specialty'}"/>
-                </group>
+<!--                <group expand="0" string="Group By">-->
+<!--                    <filter string="Specialization" name="group_specialty" context="{'group_by': 'hrh_doctor_specialty'}"/>-->
+<!--                </group>-->
             </search>
         </field>
     </record>
@@ -73,7 +73,7 @@
         <field name="view_mode">list,form</field>
         <field name="domain">[('is_hrh_doctor', '=', True)]</field>
         <field name="context">{'default_is_hrh_doctor': True}</field>
-        <field name="search_view_id" ref="hr.hospital_doctor_view_search"/>
+        <field name="search_view_id" ref="hr_hospital_doctor_view_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Add a new doctor to your hospital!
