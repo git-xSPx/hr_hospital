@@ -24,4 +24,6 @@ class HrHospitalPatient(models.Model):
         ]
     )
 
-    hrh_patient_card_number = fields.Char()
+    hrh_patient_card_number = fields.Char(
+        string="Card number",
+    )

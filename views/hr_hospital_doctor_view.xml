@@ -1,0 +1,84 @@
+<odoo>
+
+    <record id="hr_hospital_doctor_view_list" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.view.list</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list string="Doctors">
+                <field name="name" string="Doctor Name"/>
+                <field name="hrh_doctor_specialty" string="Specialization"/>
+                <field name="phone" class="o_force_ltr"/>
+                <field name="email"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_hospital_doctor_view_form" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Doctor">
+                <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+
+                    <div class="oe_title">
+                        <label for="name" string="Doctor Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Dr. House"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Professional Info">
+                            <field name="hrh_doctor_specialty" placeholder="e.g. Surgeon"/>
+                            <field name="is_hrh_doctor" invisible="1"/>
+                        </group>
+                        <group string="Contacts">
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Biography / Notes" name="notes">
+                            <field name="comment" placeholder="Additional information about the doctor..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_hospital_doctor_view_search" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.view.search</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search string="Search Doctors">
+                <field name="name"/>
+                <field name="hrh_doctor_specialty"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Specialization" name="group_specialty" context="{'group_by': 'hrh_doctor_specialty'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_hospital_doctor_action" model="ir.actions.act_window">
+        <field name="name">Doctors</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_hrh_doctor', '=', True)]</field>
+        <field name="context">{'default_is_hrh_doctor': True}</field>
+        <field name="search_view_id" ref="hr.hospital_doctor_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new doctor to your hospital!
+            </p>
+        </field>
+    </record>
+
+</odoo>
