@@ -1,7 +1,7 @@
 {
     "name": "Hospital visit",
     "summary": "Odoo module for recording patient visits",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.3.1",
     "category": "Services",
     "website": "https://github.com/git-xSPx/hr_hospital",
     "author": "Serhii Pidopryhora",
@@ -18,8 +18,10 @@
 
     "data": [
         'security/ir.model.access.csv',
+        'data/hr_hospital_disease_data.xml',
     ],
     "demo": [
+        'demo/res_partner_demo.xml',
     ],
 
     "installable": True,
