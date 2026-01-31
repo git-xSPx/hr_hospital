@@ -38,7 +38,9 @@
                         <group string="Professional Info">
                             <field name="hrh_doctor_specialty"
                                    placeholder="e.g. Surgeon"
-                                   invisible="not is_hrh_doctor"/> </group>
+                                   invisible="not is_hrh_doctor"/>
+                            <field name="hrh_senior_doctor_id" invisible="not is_hrh_doctor"/>
+                        </group>
                     </group>
 
                     <group>

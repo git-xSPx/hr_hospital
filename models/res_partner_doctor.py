@@ -16,3 +16,10 @@ class HrHospitalDoctor(models.Model):
     hrh_doctor_specialty = fields.Char(
         string="Specialty",
     )
+
+    hrh_senior_doctor_id = fields.Many2one(
+        'res.partner',
+        string="Attending Doctor",
+        domain=[('is_hrh_doctor', '=', True)],
+        help="The chief doctor or mentor for this doctor"
+    )
