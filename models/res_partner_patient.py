@@ -5,6 +5,8 @@ from odoo import models, fields
 _logger = logging.getLogger(__name__)
 
 
+# Тут я відступив від вимог ТЗ (не створював окрему сутність, але розширив
+# існуючу модель res.partner) для того, щоб розібратись як працювати з _inherit
 class HrHospitalPatient(models.Model):
     _inherit = 'res.partner'
 
