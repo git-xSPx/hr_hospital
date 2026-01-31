@@ -30,20 +30,30 @@
                     </div>
 
                     <group>
-                        <group string="Professional Info">
-                            <field name="hrh_doctor_specialty" placeholder="e.g. Surgeon"/>
-                            <field name="is_hrh_doctor" invisible="1"/>
+                        <group string="Hospital Roles">
+                            <field name="is_hrh_doctor" widget="boolean_toggle"/>
+                            <field name="is_hrh_patient" widget="boolean_toggle"/>
                         </group>
+
+                        <group string="Professional Info">
+                            <field name="hrh_doctor_specialty"
+                                   placeholder="e.g. Surgeon"
+                                   invisible="not is_hrh_doctor"/> </group>
+                    </group>
+
+                    <group>
                         <group string="Contacts">
                             <field name="phone" widget="phone"/>
                             <field name="email" widget="email"/>
+                        </group>
+                        <group string="System">
                             <field name="active" widget="boolean_toggle"/>
                         </group>
                     </group>
 
                     <notebook>
                         <page string="Biography / Notes" name="notes">
-                            <field name="comment" placeholder="Additional information about the doctor..."/>
+                            <field name="comment" placeholder="Additional information..."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -72,7 +82,10 @@
         <field name="res_model">res.partner</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[('is_hrh_doctor', '=', True)]</field>
-        <field name="context">{'default_is_hrh_doctor': True}</field>
+        <field name="context">{
+            'default_is_hrh_doctor': True,
+            'default_is_hrh_patient': False
+        }</field>
         <field name="search_view_id" ref="hr_hospital_doctor_view_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
