@@ -57,7 +57,7 @@
         <field name="arch" type="xml">
             <search string="Search Doctors">
                 <field name="name"/>
-<!--                <field name="hrh_doctor_specialty"/>-->
+                <field name="hrh_doctor_specialty"/>
                 <separator/>
                 <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
 <!--                <group expand="0" string="Group By">-->
@@ -79,6 +79,20 @@
                 Add a new doctor to your hospital!
             </p>
         </field>
+    </record>
+
+    <record id="action_doctor_view_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="hr_hospital_doctor_view_list"/>
+        <field name="act_window_id" ref="hr_hospital_doctor_action"/>
+    </record>
+
+    <record id="action_doctor_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="hr_hospital_doctor_view_form"/>
+        <field name="act_window_id" ref="hr_hospital_doctor_action"/>
     </record>
 
 </odoo>
