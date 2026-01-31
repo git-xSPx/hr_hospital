@@ -4,6 +4,7 @@ from odoo import models, fields
 
 _logger = logging.getLogger(__name__)
 
+
 class HrHospitalVisit(models.Model):
     _name = 'hr.hospital.visit'
     _description = 'Visit to doctor'
@@ -12,7 +13,6 @@ class HrHospitalVisit(models.Model):
         default=True, )
 
     visit_date = fields.Datetime(
-        string="Visit Date",
         default=fields.Datetime.today(),
     )
 

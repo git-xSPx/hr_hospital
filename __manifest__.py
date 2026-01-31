@@ -4,7 +4,8 @@
     "version": "19.0.1.4.1",
     "category": "Human Resources",
     "website": "https://github.com/git-xSPx/hr_hospital",
-    "author": "Serhii Pidopryhora",
+    "author": "Serhii Pidopryhora, "
+    "Odoo Community Association (OCA)",
     "license": "GPL-2",
 
     'depends': [
@@ -23,9 +24,6 @@
     "demo": [
         'demo/res_partner_demo.xml',
     ],
-
-    "installable": True,
-    'auto_install': False,
 
     'images': [
         'static/description/icon.png'
