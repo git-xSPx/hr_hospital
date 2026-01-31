@@ -1,0 +1,94 @@
+<odoo>
+
+    <record id="hr_hospital_patient_view_list" model="ir.ui.view">
+        <field name="name">hr_hospital.patient.view.list</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list string="Patients">
+                <field name="name" string="Patient Name"/>
+                <field name="hrh_patient_card_number" string="Card number"/>
+                <field name="phone" class="o_force_ltr"/>
+                <field name="hrh_patient_birthday" string="Data of Birth"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_hospital_patient_view_form" model="ir.ui.view">
+        <field name="name">hr_hospital.patient.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Patient">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Patient Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Daniel Cupper"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Additional Info">
+                            <field name="hrh_patient_card_number" string="Card number"/>
+                            <field name="hrh_patient_gender" widget="radio"/>
+                            <field name="hrh_patient_birthday"/>
+                            <field name="is_hrh_patient" invisible="1"/>
+                        </group>
+                        <group string="Contacts">
+                            <field name="phone" widget="phone"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Biography / Notes" name="notes">
+                            <field name="comment" placeholder="Additional information about the patient..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_hospital_patient_view_search" model="ir.ui.view">
+        <field name="name">hr_hospital.patient.view.search</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search string="Search Patients">
+                <field name="name"/>
+                <field name="hrh_patient_card_number"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_hospital_patient_action" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_hrh_patient', '=', True)]</field>
+        <field name="context">{'default_is_hrh_patient': True}</field>
+        <field name="search_view_id" ref="hr_hospital_patient_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new patient to your hospital!
+            </p>
+        </field>
+    </record>
+
+    <record id="action_patient_view_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="hr_hospital_patient_view_list"/>
+        <field name="act_window_id" ref="hr_hospital_patient_action"/>
+    </record>
+
+    <record id="action_patient_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="hr_hospital_patient_view_form"/>
+        <field name="act_window_id" ref="hr_hospital_patient_action"/>
+    </record>
+
+</odoo>

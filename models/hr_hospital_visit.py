@@ -29,7 +29,7 @@ class HrHospitalVisit(models.Model):
     )
 
     hr_hospital_disease_id = fields.Many2one(
-        comodel_name='hr.hospital',
+        comodel_name='hr.hospital.disease',
         string="Disease",
     )
 

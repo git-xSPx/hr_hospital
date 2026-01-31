@@ -9,7 +9,8 @@ class HrHospitalDoctor(models.Model):
 
     is_hrh_doctor = fields.Boolean(
         string="Is Doctor",
-        default=True,
+        store=True,
+        # default=True,
     )
 
     hrh_doctor_specialty = fields.Char(

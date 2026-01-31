@@ -9,7 +9,8 @@ class HrHospitalPatient(models.Model):
 
     is_hrh_patient = fields.Boolean(
         string="Is Patient",
-        default=True,
+        # store=True,
+        # default=True,
     )
 
     hrh_patient_birthday = fields.Date(
@@ -24,4 +25,6 @@ class HrHospitalPatient(models.Model):
         ]
     )
 
-    hrh_patient_card_number = fields.Char()
+    hrh_patient_card_number = fields.Char(
+        string="Card number",
+    )
