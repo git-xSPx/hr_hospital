@@ -1,36 +1,72 @@
-import logging
-
 from odoo import models, fields
 
-_logger = logging.getLogger(__name__)
 
-
-class HrHospitalVisit(models.Model):
+class Visit(models.Model):
+    """Model to manage patient visits to doctors."""
     _name = 'hr.hospital.visit'
-    _description = 'Visit to doctor'
+    _description = 'Patient Visit'
 
-    active = fields.Boolean(
-        default=True, )
-
-    visit_date = fields.Datetime(
-        default=fields.Datetime.today(),
+    # Status and Type
+    state = fields.Selection(
+        selection=[
+            ('scheduled', 'Scheduled'),
+            ('completed', 'Completed'),
+            ('cancelled', 'Cancelled'),
+            ('no_show', 'No-show'),
+        ],
+        string='Status',
+        default='scheduled',
+        required=True
+    )
+    visit_type = fields.Selection(
+        selection=[
+            ('primary', 'Primary'),
+            ('follow_up', 'Follow-up'),
+            ('preventive', 'Preventive'),
+            ('urgent', 'Urgent'),
+        ],
+        string='Visit Type',
+        default='primary'
     )
 
-    res_partner_patient_id = fields.Many2one(
-        comodel_name='res.partner',
-        string="Patient",
-        domain=[('is_hrh_patient', '=', True)]
+    # Timing
+    planned_date = fields.Datetime(
+        string='Planned Date and Time',
+        required=True
+    )
+    actual_date = fields.Datetime(
+        string='Actual Date and Time',
+        help='Actual time when the visit took place'
     )
 
-    res_partner_doctor_id = fields.Many2one(
-        comodel_name='res.partner',
-        string="Doctor",
-        domain=[('is_hrh_doctor', '=', True)]
+    # Relations
+    doctor_id = fields.Many2one(
+        comodel_name='hr.hospital.doctor',
+        string='Doctor',
+        required=True
+    )
+    patient_id = fields.Many2one(
+        comodel_name='hr.hospital.patient',
+        string='Patient',
+        required=True
     )
 
-    hr_hospital_disease_id = fields.Many2one(
-        comodel_name='hr.hospital.disease',
-        string="Disease",
+    diagnosis_ids = fields.One2many(
+        comodel_name='hr.hospital.medical.diagnosis',
+        inverse_name='visit_id',
+        string='Diagnoses'
     )
 
-    description = fields.Text()
+    # Medical Notes
+    recommendations = fields.Html(string='Recommendations')
+
+    # Financial details
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        default=lambda self: self.env.company.currency_id
+    )
+    visit_cost = fields.Monetary(
+        string='Visit Cost',
+        currency_field='currency_id'
+    )
