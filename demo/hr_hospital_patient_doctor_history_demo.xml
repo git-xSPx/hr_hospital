@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="hist_petrenko_1" model="hr.hospital.patient.doctor.history">
+            <field name="patient_id" ref="patient_1"/>
+            <field name="doctor_id" ref="doctor_bailey"/> <field name="appointment_date">2025-10-01</field>
+            <field name="change_date">2026-01-10</field>
+            <field name="reason">Primary check-up</field>
+            <field name="active">False</field>
+        </record>
+
+        <record id="hist_petrenko_2" model="hr.hospital.patient.doctor.history">
+            <field name="patient_id" ref="patient_1"/>
+            <field name="doctor_id" ref="doctor_house"/> <field name="appointment_date">2026-01-10</field>
+            <field name="reason">Specialized consultation required</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="hist_kovalenko_1" model="hr.hospital.patient.doctor.history">
+            <field name="patient_id" ref="patient_2"/>
+            <field name="doctor_id" ref="doctor_wilson"/>
+            <field name="appointment_date">2026-01-01</field>
+            <field name="change_date">2026-02-15</field>
+            <field name="reason">Cardiac monitoring</field>
+            <field name="active">False</field>
+        </record>
+
+        <record id="hist_kovalenko_2" model="hr.hospital.patient.doctor.history">
+            <field name="patient_id" ref="patient_2"/>
+            <field name="doctor_id" ref="doctor_grey"/>
+            <field name="appointment_date">2026-02-15</field>
+            <field name="reason">Post-surgery observation</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

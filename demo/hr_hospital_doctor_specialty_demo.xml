@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="specialty_cardiology" model="hr.hospital.doctor.specialty">
+            <field name="name">Cardiology</field>
+            <field name="code">CARD</field>
+            <field name="description">Deals with disorders of the heart and the circulatory system.</field>
+        </record>
+
+        <record id="specialty_pediatrics" model="hr.hospital.doctor.specialty">
+            <field name="name">Pediatrics</field>
+            <field name="code">PEDI</field>
+            <field name="description">Medical care of infants, children, and adolescents.</field>
+        </record>
+
+        <record id="specialty_neurology" model="hr.hospital.doctor.specialty">
+            <field name="name">Neurology</field>
+            <field name="code">NEUR</field>
+            <field name="description">Study and treatment of disorders of the nervous system.</field>
+        </record>
+
+        <record id="specialty_surgery" model="hr.hospital.doctor.specialty">
+            <field name="name">Surgery</field>
+            <field name="code">SURG</field>
+            <field name="description">Uses operative manual and instrumental techniques to treat pathological conditions.</field>
+        </record>
+
+        <record id="specialty_family" model="hr.hospital.doctor.specialty">
+            <field name="name">Family Medicine</field>
+            <field name="code">FMLY</field>
+            <field name="description">Comprehensive health care for people of all ages.</field>
+        </record>
+
+    </data>
+</odoo>

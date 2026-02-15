@@ -1,19 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
 
-        <record id="hr_hospital_disease_flu" model="hr.hospital.disease">
-            <field name="name">Flu</field>
-            <field name="description">An acute respiratory viral disease that affects the respiratory tract.</field>
+        <record id="disease_cat_infectious" model="hr.hospital.disease">
+            <field name="name">Infectious Diseases</field>
+            <field name="danger_level">high</field>
+            <field name="is_contagious">True</field>
         </record>
 
-        <record id="hr_hospital_disease_covid" model="hr.hospital.disease">
+        <record id="disease_cat_chronic" model="hr.hospital.disease">
+            <field name="name">Chronic Diseases</field>
+            <field name="danger_level">low</field>
+        </record>
+
+        <record id="disease_cat_cardio" model="hr.hospital.disease">
+            <field name="name">Cardiovascular Diseases</field>
+            <field name="danger_level">high</field>
+        </record>
+
+        <record id="disease_sub_respiratory" model="hr.hospital.disease">
+            <field name="name">Respiratory Infections</field>
+            <field name="parent_id" ref="disease_cat_infectious"/>
+            <field name="is_contagious">True</field>
+        </record>
+
+        <record id="disease_sub_metabolic" model="hr.hospital.disease">
+            <field name="name">Metabolic Disorders</field>
+            <field name="parent_id" ref="disease_cat_chronic"/>
+        </record>
+
+        <record id="disease_covid19" model="hr.hospital.disease">
             <field name="name">COVID-19</field>
-            <field name="description">Coronavirus disease 2019.</field>
+            <field name="parent_id" ref="disease_sub_respiratory"/>
+            <field name="icd10_code">U07.1</field>
+            <field name="danger_level">critical</field>
+            <field name="is_contagious">True</field>
+            <field name="country_ids" eval="[(6, 0, [ref('base.ua'), ref('base.us'), ref('base.cn')])]"/>
         </record>
 
-        <record id="hr_hospital_disease_angina" model="hr.hospital.disease">
-            <field name="name">Angina</field>
-            <field name="description">Acute inflammation of the tonsils.</field>
+        <record id="disease_flu" model="hr.hospital.disease">
+            <field name="name">Influenza</field>
+            <field name="parent_id" ref="disease_sub_respiratory"/>
+            <field name="icd10_code">J10</field>
+            <field name="danger_level">medium</field>
+            <field name="is_contagious">True</field>
+            <field name="country_ids" eval="[(6, 0, [ref('base.ua'), ref('base.fr')])]"/>
+        </record>
+
+        <record id="disease_diabetes" model="hr.hospital.disease">
+            <field name="name">Type 2 Diabetes</field>
+            <field name="parent_id" ref="disease_sub_metabolic"/>
+            <field name="icd10_code">E11</field>
+            <field name="danger_level">medium</field>
+        </record>
+
+        <record id="disease_hypertension" model="hr.hospital.disease">
+            <field name="name">Hypertension</field>
+            <field name="parent_id" ref="disease_cat_cardio"/>
+            <field name="icd10_code">I10</field>
+            <field name="danger_level">medium</field>
+        </record>
+
+        <record id="disease_heart_failure" model="hr.hospital.disease">
+            <field name="name">Heart Failure</field>
+            <field name="parent_id" ref="disease_cat_cardio"/>
+            <field name="icd10_code">I50</field>
+            <field name="danger_level">high</field>
+        </record>
+
+        <record id="disease_cholera" model="hr.hospital.disease">
+            <field name="name">Cholera</field>
+            <field name="parent_id" ref="disease_cat_infectious"/>
+            <field name="icd10_code">A00</field>
+            <field name="danger_level">critical</field>
+            <field name="is_contagious">True</field>
+            <field name="country_ids" eval="[(6, 0, [ref('base.in'), ref('base.br')])]"/>
+        </record>
+
+        <record id="disease_alzheimer" model="hr.hospital.disease">
+            <field name="name">Alzheimer's Disease</field>
+            <field name="parent_id" ref="disease_cat_chronic"/>
+            <field name="icd10_code">G30</field>
+            <field name="danger_level">medium</field>
         </record>
 
     </data>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_hospital_visit_list" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.list</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <list decoration-info="state == 'scheduled'"
+                  decoration-success="state == 'completed'"
+                  decoration-danger="state == 'no_show'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="planned_date"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="visit_type" widget="badge"/>
+                <field name="diagnosis_count" string="Diagnoses"/>
+                <field name="visit_cost" sum="Total Cost"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'scheduled'"
+                       decoration-success="state == 'completed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_visit_calendar" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.calendar</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <calendar string="Visits" date_start="planned_date" color="doctor_id" quick_create="0">
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_visit_form" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.form</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <form string="Patient Visit">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="scheduled,completed,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="patient_id" placeholder="Select Patient"/>
+                        </h1>
+                        <h3>
+                            <field name="visit_type" class="oe_inline"/> Visit
+                        </h3>
+                    </div>
+                    <group>
+                        <group string="Scheduling">
+                            <field name="planned_date"/>
+                            <field name="actual_date" invisible="state == 'scheduled'"/>
+                            <field name="specialty_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Medical Team">
+                            <field name="doctor_id" options="{'no_create': True}"/>
+                            <field name="mentor_id" invisible="not mentor_id"/>
+                        </group>
+                    </group>
+
+                    <group string="Selection Helpers" groups="base.group_no_one">
+                        <group>
+                            <field name="filter_education_country_id"/>
+                        </group>
+                        <group>
+                            <field name="patient_lang_id"/>
+                            <field name="patient_country_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Diagnoses" name="diagnoses">
+                            <field name="diagnosis_ids">
+                                <list editable="bottom">
+                                    <field name="disease_id"/>
+                                    <field name="description"/>
+                                    <field name="is_approved"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Recommendations" name="recommendations">
+                            <field name="recommendations"
+                                   placeholder="Final doctor recommendations..."
+                                   required="state == 'completed'"/>
+                        </page>
+                        <page string="Financial Details" name="finance">
+                            <group>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="visit_cost" widget="monetary"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_visit_pivot" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.pivot</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <pivot string="Visit Analysis">
+                <field name="doctor_id" type="row"/>
+                <field name="planned_date" interval="month" type="col"/>
+                <field name="visit_cost" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_hr_hospital_visit" model="ir.actions.act_window">
+        <field name="name">Visits</field>
+        <field name="res_model">hr.hospital.visit</field>
+        <field name="view_mode">list,calendar,form,pivot</field> <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the first patient visit!
+            </p>
+            <p>
+                All patient visits, their statuses, and medical records are managed here.
+            </p>
+        </field>
+    </record>
+
+</odoo>

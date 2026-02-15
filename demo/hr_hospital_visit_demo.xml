@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="visit_1" model="hr.hospital.visit">
+            <field name="patient_id" ref="patient_1"/>
+            <field name="doctor_id" ref="doctor_house"/>
+            <field name="planned_date" eval="(datetime.now() + timedelta(hours=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="visit_type">primary</field>
+            <field name="state">scheduled</field>
+            <field name="visit_cost">500.0</field>
+        </record>
+
+        <record id="visit_2" model="hr.hospital.visit">
+            <field name="patient_id" ref="patient_2"/>
+            <field name="doctor_id" ref="doctor_grey"/>
+            <field name="planned_date" eval="(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="visit_type">urgent</field>
+            <field name="state">scheduled</field>
+            <field name="visit_cost">800.0</field>
+        </record>
+
+        <record id="visit_3" model="hr.hospital.visit">
+            <field name="patient_id" ref="patient_3"/>
+            <field name="doctor_id" ref="doctor_wilson"/>
+            <field name="planned_date" eval="(datetime.now() - timedelta(days=1, hours=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="actual_date" eval="(datetime.now() - timedelta(days=1, hours=1, minutes=30)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="visit_type">follow_up</field>
+            <field name="state">completed</field>
+            <field name="recommendations"><![CDATA[<p>Drink more water and rest for 3 days.</p>]]></field>
+            <field name="visit_cost">350.0</field>
+        </record>
+
+        <record id="visit_4" model="hr.hospital.visit">
+            <field name="patient_id" ref="patient_4"/>
+            <field name="doctor_id" ref="doctor_bailey"/>
+            <field name="planned_date" eval="(datetime.now() - timedelta(days=2, hours=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="actual_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="state">completed</field>
+            <field name="visit_cost">450.0</field>
+        </record>
+
+        <record id="visit_5" model="hr.hospital.visit">
+            <field name="patient_id" ref="patient_5"/>
+            <field name="doctor_id" ref="doctor_shepherd"/>
+            <field name="planned_date" eval="(datetime.now() + timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="state">cancelled</field>
+        </record>
+
+    </data>
+</odoo>

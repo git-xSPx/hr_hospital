@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_hospital_doctor_schedule_list" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.schedule.list</field>
+        <field name="model">hr.hospital.doctor.schedule</field>
+        <field name="arch" type="xml">
+            <list decoration-info="schedule_type == 'work'"
+                  decoration-warning="schedule_type == 'vacation'"
+                  decoration-danger="schedule_type == 'sick'"
+                  decoration-muted="schedule_type == 'conference'">
+                <field name="work_date"/>
+                <field name="day_of_week"/>
+                <field name="doctor_id"/>
+                <field name="hour_from" widget="float_time"/>
+                <field name="hour_to" widget="float_time"/>
+                <field name="schedule_type" widget="badge"
+                       decoration-info="schedule_type == 'work'"
+                       decoration-warning="schedule_type == 'vacation'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_doctor_schedule_calendar" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.schedule.calendar</field>
+        <field name="model">hr.hospital.doctor.schedule</field>
+        <field name="arch" type="xml">
+            <calendar string="Doctor Schedules"
+                      date_start="work_date"
+                      color="doctor_id"
+                      mode="month"
+                      quick_create="0">
+                <field name="doctor_id" avatar_field="image_128"/>
+                <field name="schedule_type"/>
+                <field name="hour_from" widget="float_time"/>
+                <field name="hour_to" widget="float_time"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_doctor_schedule_form" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.schedule.form</field>
+        <field name="model">hr.hospital.doctor.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Schedule Entry">
+                <sheet>
+                    <group>
+                        <group string="Doctor &amp; Date">
+                            <field name="doctor_id" options="{'no_create': True}"/>
+                            <field name="work_date"/>
+                            <field name="day_of_week"/>
+                        </group>
+                        <group string="Timing &amp; Type">
+                            <label for="hour_from" string="Working Hours"/>
+                            <div class="o_row">
+                                <field name="hour_from" widget="float_time" class="oe_inline"/>
+                                <span> to </span>
+                                <field name="hour_to" widget="float_time" class="oe_inline"/>
+                            </div>
+                            <field name="schedule_type"/>
+                            <field name="notes" placeholder="e.g. Surgery room A"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    <record id="view_hr_hospital_doctor_schedule_search" model="ir.ui.view">-->
+<!--        <field name="name">hr.hospital.doctor.schedule.search</field>-->
+<!--        <field name="model">hr.hospital.doctor.schedule</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Search Schedule">-->
+<!--                <field name="doctor_id"/>-->
+<!--                <field name="work_date"/>-->
+<!--                <separator/>-->
+<!--                <filter string="Working Days" name="work_type" domain="[('schedule_type', '=', 'work')]"/>-->
+<!--                <filter string="Vacations" name="vacation_type" domain="[('schedule_type', '=', 'vacation')]"/>-->
+<!--                <filter string="Sick Leaves" name="sick_type" domain="[('schedule_type', '=', 'sick')]"/>-->
+<!--                <group expand="0" string="Group By">-->
+<!--                    <filter string="Doctor" name="group_by_doctor" context="{'group_by': 'doctor_id'}"/>-->
+<!--                    <filter string="Date" name="group_by_date" context="{'group_by': 'work_date'}"/>-->
+<!--                    <filter string="Type" name="group_by_type" context="{'group_by': 'schedule_type'}"/>-->
+<!--                </group>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="action_hr_hospital_doctor_schedule" model="ir.actions.act_window">
+        <field name="name">Doctor Schedules</field>
+        <field name="res_model">hr.hospital.doctor.schedule</field>
+        <field name="view_mode">list,calendar,form</field>
+<!--        <field name="search_view_id" ref="view_hr_hospital_doctor_schedule_search"/>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage doctor working hours.
+            </p>
+            <p>
+                Define shifts, vacations, and sick leaves for your medical staff.
+            </p>
+        </field>
+    </record>
+
+</odoo>

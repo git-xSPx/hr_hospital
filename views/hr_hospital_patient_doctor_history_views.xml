@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_hospital_patient_doctor_history_list" model="ir.ui.view">
+        <field name="name">hr.hospital.patient.doctor.history.list</field>
+        <field name="model">hr.hospital.patient.doctor.history</field>
+        <field name="arch" type="xml">
+            <list string="Patient Doctor History"
+                  decoration-success="active == True"
+                  decoration-muted="active == False"
+                  create="false"> <field name="appointment_date"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="change_date"/>
+                <field name="reason"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_patient_doctor_history_form" model="ir.ui.view">
+        <field name="name">hr.hospital.patient.doctor.history.form</field>
+        <field name="model">hr.hospital.patient.doctor.history</field>
+        <field name="arch" type="xml">
+            <form string="Doctor Assignment History">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <widget name="web_ribbon" title="Current" bg_color="text-bg-success" invisible="not active"/>
+                    </div>
+                    <group>
+                        <group string="Main Information">
+                            <field name="patient_id" options="{'no_create': True}"/>
+                            <field name="doctor_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Dates">
+                            <field name="appointment_date"/>
+                            <field name="change_date"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="Reason for Assignment/Change">
+                        <field name="reason" placeholder="e.g. Primary assignment or specialist referral"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_hr_hospital_patient_doctor_history_search" model="ir.ui.view">
+        <field name="name">hr.hospital.patient.doctor.history.search</field>
+        <field name="model">hr.hospital.patient.doctor.history</field>
+        <field name="arch" type="xml">
+            <search string="Search History">
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="appointment_date"/>
+
+                <separator/>
+                <filter string="Current Assignments" name="current_active" domain="[('active', '=', True)]"/>
+                <filter string="Past Assignments" name="archived" domain="[('active', '=', False)]"/>
+
+<!--                <group expand="0" string="Group By">-->
+<!--                    <filter string="Patient" name="group_patient" context="{'group_by': 'patient_id'}"/>-->
+<!--                    <filter string="Doctor" name="group_doctor" context="{'group_by': 'doctor_id'}"/>-->
+<!--                    <filter string="Appointment Date" name="group_date" context="{'group_by': 'appointment_date'}"/>-->
+<!--                </group>-->
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_hospital_patient_doctor_history" model="ir.actions.act_window">
+        <field name="name">Doctor Assignment History</field>
+        <field name="res_model">hr.hospital.patient.doctor.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_hr_hospital_patient_doctor_history_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No assignment history found
+            </p>
+            <p>
+                This log is populated automatically when a patient's personal doctor is changed.
+            </p>
+        </field>
+    </record>
+
+</odoo>

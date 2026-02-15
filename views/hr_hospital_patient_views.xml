@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_hospital_patient_list" model="ir.ui.view">
+        <field name="name">hr.hospital.patient.list</field>
+        <field name="model">hr.hospital.patient</field>
+        <field name="arch" type="xml">
+            <list string="Patients">
+                <field name="display_name"/>
+                <field name="age"/>
+                <field name="gender"/>
+                <field name="blood_group"/>
+                <field name="personal_doctor_id"/>
+                <field name="allergies" widget="badge" decoration-danger="allergies != False"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_patient_form" model="ir.ui.view">
+        <field name="name">hr.hospital.patient.form</field>
+        <field name="model">hr.hospital.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patient Card">
+                <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+
+                    <div class="oe_title">
+                        <label for="first_name" string="Patient Name"/>
+                        <h1>
+                            <div class="o_row">
+                                <field name="last_name" placeholder="Last Name" class="oe_inline"/>
+                                <field name="first_name" placeholder="First Name" class="oe_inline"/>
+                            </div>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Medical Overview">
+                            <field name="blood_group"/>
+                            <field name="personal_doctor_id" options="{'no_create': True}"/>
+                            <field name="allergies" placeholder="List allergies or write 'None'"/>
+                        </group>
+                        <group string="Identification &amp; Insurance">
+                            <field name="passport_data"/>
+                            <field name="insurance_company_id" options="{'no_create': True}"/>
+                            <field name="insurance_policy_number"/>
+                            <field name="contact_person_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="General Information" name="general_info">
+                            <group>
+                                <group>
+                                    <field name="birthday"/>
+                                    <field name="age"/>
+                                    <field name="gender"/>
+                                </group>
+                                <group>
+                                    <field name="phone" widget="phone"/>
+                                    <field name="email" widget="email"/>
+                                    <field name="country_id" options="{'no_create': True}"/>
+                                    <field name="lang_id" options="{'no_create': True}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Doctor History" name="doctor_history">
+                            <field name="doctor_history_ids" readonly="1">
+                                <list>
+                                    <field name="change_date"/>
+                                    <field name="doctor_id"/>
+                                    <field name="reason"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hr.hospital.patient.search</field>
+        <field name="model">hr.hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Patients">
+                <field name="last_name"/>
+                <field name="first_name"/>
+                <field name="personal_doctor_id"/>
+                <field name="blood_group"/>
+
+<!--                <group string="Group By">-->
+<!--                    <filter string="Doctor" name="group_doctor" context="{'group_by': 'personal_doctor_id'}"/>-->
+<!--                    <filter string="Blood Group" name="group_blood" context="{'group_by': 'blood_group'}"/>-->
+<!--                </group>-->
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_hospital_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">hr.hospital.patient</field>
+        <field name="view_mode">list,form</field>
+<!--        <field name="search_view_id" ref="view_hr_hospital_patient_search"/>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first patient
+            </p>
+            <p>
+                Manage patient records, medical history, and personal doctor assignments.
+            </p>
+        </field>
+    </record>
+
+</odoo>

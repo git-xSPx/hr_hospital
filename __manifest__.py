@@ -15,14 +15,30 @@
     "data": [
         'security/ir.model.access.csv',
         'data/hr_hospital_disease_data.xml',
-        'views/hr_hospital_disease_view.xml',
-        'views/hr_hospital_patient_view.xml',
-        'views/hr_hospital_doctor_view.xml',
-        'views/hr_hospital_visit_view.xml',
-        'views/hr_hospital_menus.xml',
-    ],
+
+        # Main models
+        'views/hr_hospital_doctor_specialty_views.xml',
+        'views/hr_hospital_disease_views.xml',
+        'views/hr_hospital_doctor_views.xml',
+        'views/hr_hospital_patient_views.xml',
+
+        # Depend models
+        'views/hr_hospital_contact_person_views.xml',
+        'views/hr_hospital_visit_views.xml',
+        'views/hr_hospital_medical_diagnosis_views.xml',
+        'views/hr_hospital_doctor_schedule_views.xml',
+        'views/hr_hospital_patient_doctor_history_views.xml',
+
+        # Menus
+        'views/hr_hospital_menus.xml'    ],
     "demo": [
-        'demo/res_partner_demo.xml',
+        'demo/hr_hospital_doctor_specialty_demo.xml',
+        'demo/hr_hospital_doctor_demo.xml',
+        'demo/hr_hospital_patient_demo.xml',
+        'demo/hr_hospital_visit_demo.xml',
+        'demo/hr_hospital_medical_diagnosis_demo.xml',
+        'demo/hr_hospital_doctor_schedule_demo.xml',
+        'demo/hr_hospital_patient_doctor_history_demo.xml',
     ],
 
     'images': [

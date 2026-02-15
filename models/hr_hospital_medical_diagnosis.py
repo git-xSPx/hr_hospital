@@ -75,6 +75,12 @@ class MedicalDiagnosis(models.Model):
         return super(MedicalDiagnosis, self).write(vals)
 
     def _check_approval_permission(self, vals, visit):
+
+        if self.env.context.get('install_mode') or self.env.context.get('import_file'):
+            if not vals.get('approval_date'):
+                vals['approval_date'] = fields.Datetime.now()
+            return
+
         current_doctor = self.env['hr.hospital.doctor'].search([
             ('user_id', '=', self.env.user.id)
         ], limit=1)

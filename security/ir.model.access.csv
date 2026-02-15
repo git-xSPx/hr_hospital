@@ -1,3 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access__hr_hospital_disease__group_user,access__hr_hospital_disease__group_user,model_hr_hospital_disease,base.group_user,1,1,1,1
-access__hr_hospital_visit__group_user,access__hr_hospital_visit__group_user,model_hr_hospital_visit,base.group_user,1,1,1,1
+access_hr_hospital_doctor,hr.hospital.doctor,model_hr_hospital_doctor,base.group_user,1,1,1,1
+access_hr_hospital_patient,hr.hospital.patient,model_hr_hospital_patient,base.group_user,1,1,1,1
+access_hr_hospital_visit,hr.hospital.visit,model_hr_hospital_visit,base.group_user,1,1,1,1
+access_hr_hospital_disease,hr.hospital.disease,model_hr_hospital_disease,base.group_user,1,1,1,1
+access_hr_hospital_doctor_specialty,hr.hospital.doctor.specialty,model_hr_hospital_doctor_specialty,base.group_user,1,1,1,1
+access_hr_hospital_doctor_schedule,hr.hospital.doctor.schedule,model_hr_hospital_doctor_schedule,base.group_user,1,1,1,1
+access_hr_hospital_medical_diagnosis,hr.hospital.medical.diagnosis,model_hr_hospital_medical_diagnosis,base.group_user,1,1,1,1
+access_hr_hospital_contact_person,hr.hospital.contact.person,model_hr_hospital_contact_person,base.group_user,1,1,1,1
+access_hr_hospital_patient_doctor_history,hr.hospital.patient.doctor.history,model_hr_hospital_patient_doctor_history,base.group_user,1,1,1,1

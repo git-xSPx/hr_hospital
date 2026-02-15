@@ -1,32 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <menuitem id="hr_hospital_menu_root"
+    <menuitem id="menu_hr_hospital_root"
               name="Hospital"
-              web_icon="hr_hospital,static/description/icon.png"
+              sequence="10"
+              web_icon="hr_hospital,static/description/icon.png"/>
+
+    <menuitem id="menu_hospital_operations"
+              name="Operations"
+              parent="menu_hr_hospital_root"
               sequence="10"/>
 
-    <menuitem id="hr_hospital_menu_patient"
+    <menuitem id="menu_hospital_patients"
               name="Patients"
-              parent="hr_hospital_menu_root"
-              action="hr_hospital_patient_action"
-              sequence="10"/>
-
-    <menuitem id="hr_hospital_menu_doctor"
-              name="Doctors"
-              parent="hr_hospital_menu_root"
-              action="hr_hospital_doctor_action"
+              parent="menu_hr_hospital_root"
               sequence="20"/>
 
-    <menuitem id="hr_hospital_menu_visit"
-              name="Visits"
-              parent="hr_hospital_menu_root"
-              action="hr_hospital_visit_action"
+    <menuitem id="menu_hospital_doctors"
+              name="Doctors"
+              parent="menu_hr_hospital_root"
               sequence="30"/>
 
-    <menuitem id="hr_hospital_menu_disease"
-              name="Diseases"
-              parent="hr_hospital_menu_root"
-              action="hr_hospital_disease_action"
-              sequence="40"/>
+    <menuitem id="menu_hospital_config"
+              name="Configuration"
+              parent="menu_hr_hospital_root"
+              sequence="100"/>
+
+    <menuitem id="menu_visit_action"
+              name="Visits"
+              parent="menu_hospital_operations"
+              action="action_hr_hospital_visit"
+              sequence="10"/>
+
+    <menuitem id="menu_schedule_action"
+              name="Work Schedule"
+              parent="menu_hospital_operations"
+              action="action_hr_hospital_doctor_schedule"
+              sequence="20"/>
+
+    <menuitem id="menu_patient_action"
+              name="Patient Registry"
+              parent="menu_hospital_patients"
+              action="action_hr_hospital_patient"
+              sequence="10"/>
+
+    <menuitem id="menu_contact_person_action"
+              name="Contact Persons"
+              parent="menu_hospital_patients"
+              action="action_hr_hospital_contact_person"
+              sequence="20"/>
+
+    <menuitem id="menu_diagnosis_action"
+              name="Diagnoses History"
+              parent="menu_hospital_patients"
+              action="action_hr_hospital_medical_diagnosis"
+              sequence="30"/>
+
+    <menuitem id="menu_doctor_action"
+              name="Doctors List"
+              parent="menu_hospital_doctors"
+              action="action_hr_hospital_doctor"
+              sequence="10"/>
+
+    <menuitem id="menu_specialty_action"
+              name="Medical Specialties"
+              parent="menu_hospital_config"
+              action="action_hr_hospital_doctor_specialty"
+              sequence="10"/>
+
+    <menuitem id="menu_disease_action"
+              name="Diseases (ICD-10)"
+              parent="menu_hospital_config"
+              action="action_hr_hospital_disease"
+              sequence="20"/>
+
+    <menuitem id="menu_history_action"
+              name="Assignment Logs"
+              parent="menu_hospital_config"
+              action="action_hr_hospital_patient_doctor_history"
+              sequence="30"/>
 
 </odoo>

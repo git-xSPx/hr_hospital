@@ -114,8 +114,8 @@ class Visit(models.Model):
                     or not visit.doctor_id or not visit.patient_id):
                 continue
 
-            if visit.planned_date <= visit.actual_date:
-                raise ValidationError(_("Planned date cannot be greater than actual date!"))
+            if visit.actual_date < visit.planned_date:
+                raise ValidationError(_("Actual date cannot be earlier than planned date!"))
 
             start_date = visit.planned_date.date()
             domain = [

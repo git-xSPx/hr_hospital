@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="diag_1" model="hr.hospital.medical.diagnosis">
+            <field name="visit_id" ref="visit_3"/>
+            <field name="disease_id" ref="disease_covid19"/>
+            <field name="severity">severe</field>
+            <field name="description">Classic symptoms with high fever.</field>
+            <field name="treatment"><![CDATA[<p>Antipyretics and bed rest.</p>]]></field>
+            <field name="is_approved" eval="True"/>
+            <field name="approved_doctor_id" ref="doctor_house"/>
+            <field name="approval_date" eval="datetime.now().strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="diag_intern_1" model="hr.hospital.medical.diagnosis">
+            <field name="visit_id" ref="visit_4"/>
+            <field name="disease_id" ref="disease_flu"/>
+            <field name="severity">medium</field>
+            <field name="description">Suspected seasonal flu.</field>
+            <field name="is_approved" eval="False"/>
+        </record>
+
+        <record id="diag_critical_1" model="hr.hospital.medical.diagnosis">
+            <field name="visit_id" ref="visit_1"/>
+            <field name="disease_id" ref="disease_cholera"/>
+            <field name="severity">critical</field>
+            <field name="is_approved" eval="True"/>
+            <field name="approved_doctor_id" ref="doctor_bailey"/>
+            <field name="approval_date" eval="datetime.now().strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="diag_4" model="hr.hospital.medical.diagnosis">
+            <field name="visit_id" ref="visit_2"/>
+            <field name="disease_id" ref="disease_diabetes"/>
+            <field name="severity">medium</field>
+            <field name="is_approved" eval="True"/>
+            <field name="approved_doctor_id" ref="doctor_yang"/>
+            <field name="approval_date" eval="datetime.now().strftime('%Y-%m-%d')"/>
+        </record>
+
+    </data>
+</odoo>
