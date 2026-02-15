@@ -11,6 +11,7 @@ class DoctorSchedule(models.Model):
         comodel_name='hr.hospital.doctor',
         string='Doctor',
         required=True,
+        domain="[('specialty_id', '!=', False)]",
         ondelete='cascade'
     )
 
@@ -56,3 +57,9 @@ class DoctorSchedule(models.Model):
     )
 
     notes = fields.Char()
+
+    _sql_constraints = [
+        ('check_hours',
+         'CHECK(hour_to > hour_from)',
+         'The end time must be later than the start time!')
+    ]

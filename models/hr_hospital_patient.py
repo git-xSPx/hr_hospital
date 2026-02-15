@@ -54,3 +54,16 @@ class Patient(models.Model):
         inverse_name='patient_id',
         string='Personal Doctor History'
     )
+
+    def write(self, vals):
+        result = super(Patient, self).write(vals)
+        if 'personal_doctor_id' in vals:
+            for patient in self:
+                self.env['hr.hospital.patient.doctor.history'].create({
+                    'patient_id': patient.id,
+                    'doctor_id': vals['personal_doctor_id'],
+                    'appointment_date': fields.Date.today(),
+                    'change_date': self.env.context.get('reassign_date') or fields.Date.today(),
+                    'reason': self.env.context.get('reassign_reason') or _('Manual change'),
+                })
+        return result

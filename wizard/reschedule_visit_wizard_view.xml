@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_reschedule_visit_wizard_form" model="ir.ui.view">
+        <field name="name">reschedule.visit.wizard.form</field>
+        <field name="model">reschedule.visit.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reschedule Visit">
+                <sheet>
+                    <group>
+                        <field name="visit_id"/>
+                    </group>
+                    <group>
+                        <group string="New Schedule">
+                            <field name="new_doctor_id" options="{'no_create': True}"/>
+                            <field name="new_date"/>
+                            <field name="new_time" widget="float_time"/>
+                        </group>
+                    </group>
+                    <group string="Reason">
+                        <field name="reason" placeholder="Explain why the visit is being moved..."/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_reschedule" string="Reschedule Now" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_reschedule_visit_wizard" model="ir.actions.act_window">
+        <field name="name">Reschedule Visit</field>
+        <field name="res_model">reschedule.visit.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

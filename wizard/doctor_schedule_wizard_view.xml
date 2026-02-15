@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_doctor_schedule_wizard_form" model="ir.ui.view">
+        <field name="name">doctor.schedule.wizard.form</field>
+        <field name="model">doctor.schedule.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Schedule">
+                <sheet>
+                    <group>
+                        <group string="Basic Info">
+                            <field name="doctor_id" options="{'no_create': True}"/>
+                            <field name="schedule_type"/>
+                        </group>
+                        <group string="Duration">
+                            <field name="start_week_date"/>
+                            <field name="weeks_count"/>
+                        </group>
+                    </group>
+                    <group string="Days of the Week">
+                        <div class="o_row">
+                            <field name="mo"/> <label for="mo"/>
+                            <field name="tu"/> <label for="tu"/>
+                            <field name="we"/> <label for="we"/>
+                            <field name="th"/> <label for="th"/>
+                            <field name="fr"/> <label for="fr"/>
+                            <field name="sa" class="text-danger"/> <label for="sa"/>
+                            <field name="su" class="text-danger"/> <label for="su"/>
+                        </div>
+                    </group>
+                    <group>
+                        <group string="Working Hours">
+                            <field name="start_time" widget="float_time"/>
+                            <field name="end_time" widget="float_time"/>
+                        </group>
+                        <group string="Lunch Break">
+                            <field name="break_from" widget="float_time"/>
+                            <field name="break_to" widget="float_time"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_generate" string="Generate" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_doctor_schedule_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Schedule</field>
+        <field name="res_model">doctor.schedule.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

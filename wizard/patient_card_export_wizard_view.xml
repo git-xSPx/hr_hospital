@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_patient_card_export_wizard_form" model="ir.ui.view">
+        <field name="name">patient.card.export.wizard.form</field>
+        <field name="model">patient.card.export.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Export Patient Card">
+                <sheet>
+                    <div class="alert alert-info" role="alert" invisible="not file_data">
+                        Your file is ready! Click on the file name below to download.
+                    </div>
+
+                    <group invisible="file_data">
+                        <group string="Patient Info">
+                            <field name="patient_id" readonly="1"/>
+                            <field name="lang_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Period">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+
+                    <group invisible="file_data">
+                        <group string="Content Options">
+                            <field name="include_diagnoses"/>
+                            <field name="include_recommendations"/>
+                        </group>
+                        <group string="Format">
+                            <field name="export_format" widget="radio"/>
+                        </group>
+                    </group>
+
+                    <group visible="file_data">
+                        <field name="file_name" invisible="1"/>
+                        <field name="file_data" filename="file_name" readonly="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_export" string="Generate File" type="object"
+                            class="btn-primary" invisible="file_data"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_patient_card_export_wizard" model="ir.actions.act_window">
+        <field name="name">Export Patient Card</field>
+        <field name="res_model">patient.card.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_hr_hospital_patient"/>
+        <field name="binding_view_types">form</field>
+    </record>
+</odoo>
