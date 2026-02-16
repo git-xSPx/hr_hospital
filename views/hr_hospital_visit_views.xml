@@ -40,6 +40,11 @@
         <field name="arch" type="xml">
             <form string="Patient Visit">
                 <header>
+                    <button name="%(action_hr_hospital_reschedule_visit_wizard)d"
+                        string="Reschedule"
+                        type="action"
+                        class="oe_highlight"
+                        invisible="state != 'scheduled'"/>
                     <field name="state" widget="statusbar" statusbar_visible="scheduled,completed,cancelled"/>
                 </header>
                 <sheet>

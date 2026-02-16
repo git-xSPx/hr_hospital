@@ -66,21 +66,24 @@ class Doctor(models.Model):
         string='Work Schedule'
     )
 
-    # Education
-    education_country_id = fields.Many2one(
-        comodel_name='res.country',
-        string='Country of Study'
+    _license_number_unique = models.Constraint(
+        'UNIQUE(license_number)',
+        'The license number must be unique!')
+
+    _check_rating = models.Constraint(
+        'CHECK(rating >= 0 AND rating <= 5)',
+        'The doctor rating must be between 0 and 5.00!',
     )
 
-    _sql_constraints = [
-        ('license_number_unique',
-         'unique(license_number)',
-         'The license number must be unique!'),
-
-        ('check_rating',
-         'CHECK(rating >= 0 AND rating <= 5)',
-         'The doctor rating must be between 0.00 and 5.00!')
-    ]
+    # _sql_constraints = [
+    #     ('license_number_unique',
+    #      'unique(license_number)',
+    #      'The license number must be unique!'),
+    #
+    #     ('check_rating',
+    #      'CHECK(rating >= 0 AND rating <= 5)',
+    #      'The doctor rating must be between 0.00 and 5.00!')
+    # ]
 
     @api.constrains('is_intern', 'mentor_id')
     def _check_mentor_not_intern(self):

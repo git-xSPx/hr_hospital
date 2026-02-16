@@ -156,6 +156,14 @@ class Visit(models.Model):
         for visit in self:
             visit.diagnosis_count = len(visit.diagnosis_ids)
 
+    @api.depends('planned_date', 'patient_id')
+    def _compute_display_name(self):
+        for visit in self:
+            date_str = visit.planned_date.strftime('%Y-%m-%d %H:%M') if visit.planned_date else _("No Date")
+            patient_name = visit.patient_id.display_name or _("Unknown Patient")
+
+            visit.display_name = f"{date_str} - {patient_name}"
+
     @api.onchange('patient_id')
     def _onchange_patient_id(self):
         if self.patient_id and self.patient_id.allergies:

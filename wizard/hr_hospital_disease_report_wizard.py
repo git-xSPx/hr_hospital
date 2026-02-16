@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 
 class DiseaseReportWizard(models.TransientModel):
-    _name = 'disease.report.wizard'
+    _name = 'hr.hospital.disease.report.wizard'
     _description = 'Disease Report Wizard'
 
     # Filters
@@ -56,8 +56,9 @@ class DiseaseReportWizard(models.TransientModel):
             'name': _('Disease Report Results'),
             'type': 'ir.actions.act_window',
             'res_model': 'hr.hospital.medical.diagnosis',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': domain,
+            'target': 'current',
             'context': {'expand': 1},
         }
 

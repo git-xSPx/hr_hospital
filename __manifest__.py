@@ -29,6 +29,13 @@
         'views/hr_hospital_doctor_schedule_views.xml',
         'views/hr_hospital_patient_doctor_history_views.xml',
 
+        # Wizards
+        'wizard/hr_hospital_disease_report_wizard_view.xml',
+        'wizard/hr_hospital_doctor_schedule_wizard_view.xml',
+        'wizard/hr_hospital_mass_reassign_doctor_wizard_view.xml',
+        'wizard/hr_hospital_patient_card_export_wizard_view.xml',
+        'wizard/hr_hospital_reschedule_visit_wizard_view.xml',
+
         # Menus
         'views/hr_hospital_menus.xml'    ],
     "demo": [

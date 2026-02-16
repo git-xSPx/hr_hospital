@@ -1,4 +1,5 @@
-from odoo import models, fields
+from odoo import models, fields, api
+from odoo.tools.translate import _
 
 class Patient(models.Model):
     """Model to manage patient information, inheriting from abstract person."""
@@ -67,3 +68,9 @@ class Patient(models.Model):
                     'reason': self.env.context.get('reassign_reason') or _('Manual change'),
                 })
         return result
+
+    @api.depends('last_name', 'first_name')
+    def _compute_display_name(self):
+        for patient in self:
+            name = f"{patient.last_name or ''} {patient.first_name or ''}".strip()
+            patient.display_name = name or _("New Patient")

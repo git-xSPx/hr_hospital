@@ -2,10 +2,10 @@ from odoo import models, fields, api
 
 
 class MassReassignDoctorWizard(models.TransientModel):
-    _name = 'mass.reassign.doctor.wizard'
+    _name = 'hr.hospital.mass.reassign.doctor.wizard'
     _description = 'Mass Reassign Doctor Wizard'
 
-    # Новий лікар для всіх вибраних пацієнтів
+    # New doctor for all patients
     new_doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',
         string='New Doctor',

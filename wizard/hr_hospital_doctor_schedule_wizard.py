@@ -5,7 +5,7 @@ from datetime import timedelta
 
 class DoctorScheduleWizard(models.TransientModel):
     """Wizard to mass-generate doctor work schedules."""
-    _name = 'doctor.schedule.wizard'
+    _name = 'hr.hospital.doctor.schedule.wizard'
     _description = 'Doctor Schedule Generation Wizard'
 
     doctor_id = fields.Many2one(
@@ -66,16 +66,17 @@ class DoctorScheduleWizard(models.TransientModel):
             if self.schedule_type == 'odd' and week_number % 2 == 0:
                 continue
 
-            for is_selected, day_offset in days_mapping:
+            for is_selected, day_index in days_mapping:
                 if is_selected:
-                    work_date = current_monday + timedelta(days=day_offset)
+                    target_date = current_monday + timedelta(day_index)
+
                     vals_list.append({
                         'doctor_id': self.doctor_id.id,
-                        'date': work_date,
-                        'start_time': self.start_time,
-                        'end_time': self.end_time,
-                        'break_from': self.break_from,
-                        'break_to': self.break_to,
+                        'work_date': target_date,
+                        'day_of_week': str(day_index),
+                        'hour_from': self.start_time,
+                        'hour_to': self.end_time,
+                        'schedule_type': 'work',
                     })
 
         if vals_list:

@@ -21,6 +21,11 @@
               parent="menu_hr_hospital_root"
               sequence="30"/>
 
+    <menuitem id="menu_hospital_reporting"
+              name="Reporting"
+              parent="menu_hr_hospital_root"
+              sequence="40"/>
+
     <menuitem id="menu_hospital_config"
               name="Configuration"
               parent="menu_hr_hospital_root"
@@ -37,6 +42,24 @@
               parent="menu_hospital_operations"
               action="action_hr_hospital_doctor_schedule"
               sequence="20"/>
+
+    <menuitem id="menu_doctor_schedule_wizard_action"
+              name="Generate Schedules"
+              parent="menu_hospital_operations"
+              action="action_hr_hospital_doctor_schedule_wizard"
+              sequence="30"/>
+
+    <menuitem id="menu_mass_reassign_doctor_wizard_action"
+              name="Mass Reassign Doctor"
+              parent="menu_hospital_operations"
+              action="action_hr_hospital_mass_reassign_doctor_wizard"
+              sequence="40"/>
+
+    <menuitem id="menu_reschedule_visit_wizard_action"
+              name="Reschedule Visits Tool"
+              parent="menu_hospital_operations"
+              action="action_hr_hospital_reschedule_visit_wizard"
+              sequence="50"/>
 
     <menuitem id="menu_patient_action"
               name="Patient Registry"
@@ -61,6 +84,18 @@
               parent="menu_hospital_doctors"
               action="action_hr_hospital_doctor"
               sequence="10"/>
+
+    <menuitem id="menu_disease_report_wizard_action"
+              name="Disease Analysis Report"
+              parent="menu_hospital_reporting"
+              action="action_hr_hospital_disease_report_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_patient_card_export_wizard_action"
+              name="Export Patient Cards"
+              parent="menu_hospital_reporting"
+              action="action_hr_hospital_patient_card_export_wizard"
+              sequence="20"/>
 
     <menuitem id="menu_specialty_action"
               name="Medical Specialties"

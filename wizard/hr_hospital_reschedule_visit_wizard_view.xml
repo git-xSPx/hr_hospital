@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_reschedule_visit_wizard_form" model="ir.ui.view">
-        <field name="name">reschedule.visit.wizard.form</field>
-        <field name="model">reschedule.visit.wizard</field>
+    <record id="view_hr_hospital_reschedule_visit_wizard_form" model="ir.ui.view">
+        <field name="name">hr.hospital.reschedule.visit.wizard.form</field>
+        <field name="model">hr.hospital.reschedule.visit.wizard</field>
         <field name="arch" type="xml">
             <form string="Reschedule Visit">
                 <sheet>
                     <group>
-                        <field name="visit_id"/>
+                        <field name="visit_id"
+                           options="{'no_create': True}"
+                           readonly="visit_id != False"/>
                     </group>
                     <group>
                         <group string="New Schedule">
@@ -28,9 +30,9 @@
         </field>
     </record>
 
-    <record id="action_reschedule_visit_wizard" model="ir.actions.act_window">
+    <record id="action_hr_hospital_reschedule_visit_wizard" model="ir.actions.act_window">
         <field name="name">Reschedule Visit</field>
-        <field name="res_model">reschedule.visit.wizard</field>
+        <field name="res_model">hr.hospital.reschedule.visit.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>

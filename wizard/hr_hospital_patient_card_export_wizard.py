@@ -7,7 +7,7 @@ from odoo import models, fields, api
 
 class PatientCardExportWizard(models.TransientModel):
     """Wizard to export patient medical data in JSON or CSV format."""
-    _name = 'patient.card.export.wizard'
+    _name = 'hr.hospital.patient.card.export.wizard'
     _description = 'Patient Card Export Wizard'
 
     patient_id = fields.Many2one(

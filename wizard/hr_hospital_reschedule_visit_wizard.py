@@ -1,18 +1,21 @@
 from odoo import models, fields, api
 from odoo.tools.translate import _
 from odoo.exceptions import UserError
+from datetime import datetime, time
 
 
 class RescheduleVisitWizard(models.TransientModel):
     """Wizard to reschedule a patient visit to another date or doctor."""
-    _name = 'reschedule.visit.wizard'
+    _name = 'hr.hospital.reschedule.visit.wizard'
     _description = 'Reschedule Visit Wizard'
 
     # Current visit info
     visit_id = fields.Many2one(
         comodel_name='hr.hospital.visit',
-        string='Current Visit',
-        readonly=True
+        string='Visit to Reschedule',
+        # readonly=True
+        required=True,
+        domain="[('state', '=', 'scheduled')]"
     )
 
     # New appointment details
@@ -47,6 +50,10 @@ class RescheduleVisitWizard(models.TransientModel):
                 'new_doctor_id': visit.doctor_id.id,
                 'new_date': visit.planned_date,
             })
+
+            if 'new_time' in fields_list and hasattr(visit, 'planned_time'):
+                res['new_time'] = visit.planned_time
+
         return res
 
     def action_reschedule(self):
@@ -60,15 +67,17 @@ class RescheduleVisitWizard(models.TransientModel):
         # Archive or cancel the old visit
         old_visit.write({
             'state': 'cancelled',
-            'active': False,  # Free the slot by archiving
         })
+
+        hour = int(self.new_time)
+        minute = int(round((self.new_time - hour) * 60))
+        combined_datetime = datetime.combine(self.new_date, time(hour, minute))
 
         # Create a new visit record
         new_visit = self.env['hr.hospital.visit'].create({
             'patient_id': old_visit.patient_id.id,
             'doctor_id': self.new_doctor_id.id or old_visit.doctor_id.id,
-            'planned_date': self.new_date,
-            'planned_time': self.new_time,
+            'planned_date': combined_datetime,
             'state': 'scheduled',
         })
 
