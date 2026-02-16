@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_patient_card_export_wizard_form" model="ir.ui.view">
-        <field name="name">patient.card.export.wizard.form</field>
-        <field name="model">patient.card.export.wizard</field>
+    <record id="view_hr_hospital_patient_card_export_wizard_form" model="ir.ui.view">
+        <field name="name">hr.hospital.patient.card.export.wizard.form</field>
+        <field name="model">hr.hospital.patient.card.export.wizard</field>
         <field name="arch" type="xml">
             <form string="Export Patient Card">
                 <sheet>
@@ -45,9 +45,9 @@
         </field>
     </record>
 
-    <record id="action_patient_card_export_wizard" model="ir.actions.act_window">
+    <record id="action_hr_hospital_patient_card_export_wizard" model="ir.actions.act_window">
         <field name="name">Export Patient Card</field>
-        <field name="res_model">patient.card.export.wizard</field>
+        <field name="res_model">hr.hospital.patient.card.export.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="model_hr_hospital_patient"/>
