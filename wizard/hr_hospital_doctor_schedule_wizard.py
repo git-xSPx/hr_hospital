@@ -1,6 +1,5 @@
-from odoo import models, fields
-from odoo.tools.translate import _
 from datetime import timedelta
+from odoo import models, fields
 
 
 class DoctorScheduleWizard(models.TransientModel):
@@ -10,7 +9,6 @@ class DoctorScheduleWizard(models.TransientModel):
 
     doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',
-        string='Doctor',
         required=True
     )
     start_week_date = fields.Date(
@@ -27,7 +25,7 @@ class DoctorScheduleWizard(models.TransientModel):
         ('standard', 'Every Week'),
         ('even', 'Even Weeks Only'),
         ('odd', 'Odd Weeks Only')
-    ], string='Schedule Type', default='standard', required=True)
+    ], default='standard', required=True)
 
     # Days of the week
     mo = fields.Boolean('Mon')
@@ -41,15 +39,16 @@ class DoctorScheduleWizard(models.TransientModel):
     # Working hours
     start_time = fields.Float('Work Starts', required=True)
     end_time = fields.Float('Work Ends', required=True)
-    break_from = fields.Float('Break From')
-    break_to = fields.Float('Break To')
+    break_from = fields.Float()
+    break_to = fields.Float()
 
     def action_generate(self):
         """Logic to generate hr.hospital.doctor.schedule records."""
         self.ensure_one()
 
         # Find the Monday of the starting week
-        start_monday = self.start_week_date - timedelta(days=self.start_week_date.weekday())
+        start_monday = (self.start_week_date
+                        - timedelta(days=self.start_week_date.weekday()))
         days_mapping = [
             (self.mo, 0), (self.tu, 1), (self.we, 2),
             (self.th, 3), (self.fr, 4), (self.sa, 5), (self.su, 6)

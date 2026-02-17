@@ -1,5 +1,6 @@
 from odoo import models, fields
 
+
 class DoctorSchedule(models.Model):
     """Model to manage doctor's working hours and events."""
     _name = 'hr.hospital.doctor.schedule'
@@ -9,7 +10,6 @@ class DoctorSchedule(models.Model):
     # Relation to doctor
     doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',
-        string='Doctor',
         required=True,
         domain="[('specialty_id', '!=', False)]",
         ondelete='cascade'

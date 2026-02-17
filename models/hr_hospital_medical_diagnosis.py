@@ -1,7 +1,6 @@
-from odoo import models, fields, api
-from odoo.tools.translate import _
-from odoo.exceptions import UserError
 from datetime import timedelta
+from odoo import models, fields, api
+from odoo.exceptions import UserError
 
 
 class MedicalDiagnosis(models.Model):
@@ -12,7 +11,6 @@ class MedicalDiagnosis(models.Model):
     # Relation to the visit (required for cascading deletion)
     visit_id = fields.Many2one(
         comodel_name='hr.hospital.visit',
-        string='Visit',
         ondelete='cascade',
         domain=lambda self: [
             ('state', '=', 'done'),
@@ -25,7 +23,6 @@ class MedicalDiagnosis(models.Model):
     # Relation to the disease
     disease_id = fields.Many2one(
         comodel_name='hr.hospital.disease',
-        string='Disease',
         domain="[('is_contagious', '=', True), ('danger_level', 'in', ['high', 'critical'])]",
         required=True
     )
@@ -45,7 +42,6 @@ class MedicalDiagnosis(models.Model):
         readonly=True
     )
     approval_date = fields.Datetime(
-        string='Approval Date',
         readonly=True
     )
 
@@ -66,13 +62,13 @@ class MedicalDiagnosis(models.Model):
             if vals.get('is_approved'):
                 visit = self.env['hr.hospital.visit'].browse(vals.get('visit_id'))
                 self._check_approval_permission(vals, visit)
-        return super(MedicalDiagnosis, self).create(vals_list)
+        return super().create(vals_list)
 
     def write(self, vals):
         if vals.get('is_approved'):
             for diagnosis in self:
                 self._check_approval_permission(vals, diagnosis.visit_id)
-        return super(MedicalDiagnosis, self).write(vals)
+        return super().write(vals)
 
     def _check_approval_permission(self, vals, visit):
 
@@ -86,23 +82,28 @@ class MedicalDiagnosis(models.Model):
         ], limit=1)
 
         if not current_doctor:
-            raise UserError(_("Only a registered doctor can approve diagnoses!"))
+            raise UserError(self.env._("Only a registered doctor can approve diagnoses!"))
 
         author_doctor = visit.doctor_id
 
         if author_doctor.is_intern:
             # If autor is intern, commit approve diagnos can only his mentor
             if not author_doctor.mentor_id:
-                raise UserError(_("Intern %s has no mentor. Approval impossible.") % author_doctor.full_name)
+                raise UserError(self.env._(
+                    "Intern %(name)s has no mentor. Approval impossible.",
+                    name=author_doctor.full_name
+                ))
 
             if current_doctor.id != author_doctor.mentor_id.id:
-                raise UserError(_(
-                    "Only the assigned mentor (%s) can approve diagnoses for intern %s."
-                ) % (author_doctor.mentor_id.full_name, author_doctor.full_name))
+                raise UserError(self.env._(
+                    "Only the assigned mentor (%(mentor)s) "
+                    "can approve diagnoses for intern %(intern)s.",
+                    mentor=author_doctor.mentor_id.full_name, intern=author_doctor.full_name
+                ))
         else:
             # Autor is full graduate doctor
             if current_doctor.is_intern:
-                raise UserError(_("An intern cannot approve a doctor's diagnosis!"))
+                raise UserError(self.env._("An intern cannot approve a doctor's diagnosis!"))
 
         vals.update({
             'approved_doctor_id': current_doctor.id,

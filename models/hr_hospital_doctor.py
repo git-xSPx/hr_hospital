@@ -1,8 +1,8 @@
-from odoo import models, fields, api
-from odoo.tools.translate import _
-from odoo.exceptions import ValidationError, UserError
 from datetime import date
 from dateutil.relativedelta import relativedelta
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError, UserError
+
 
 class Doctor(models.Model):
     """Model to manage doctor information, inheriting from abstract person."""
@@ -20,7 +20,6 @@ class Doctor(models.Model):
     # Professional information
     specialty_id = fields.Many2one(
         comodel_name='hr.hospital.doctor.specialty',
-        string='Specialty'
     )
     # Field to store where the doctor received their education
     education_country_id = fields.Many2one(
@@ -29,7 +28,6 @@ class Doctor(models.Model):
         help='The country where the doctor obtained their medical degree'
     )
     is_intern = fields.Boolean(
-        string='Is Intern',
         default=False
     )
     mentor_id = fields.Many2one(
@@ -41,7 +39,6 @@ class Doctor(models.Model):
 
     # Licensing and experience
     license_number = fields.Char(
-        string='License Number',
         required=True,
         copy=False
     )
@@ -56,7 +53,6 @@ class Doctor(models.Model):
 
     # Ratings and Schedule
     rating = fields.Float(
-        string='Rating',
         digits=(3, 2),
         help='Doctor rating from 0.00 to 5.00'
     )
@@ -90,9 +86,13 @@ class Doctor(models.Model):
         for doctor in self:
             if doctor.is_intern and doctor.mentor_id:
                 if doctor.mentor_id.is_intern:
-                    raise ValidationError(_("An intern cannot be a mentor for another intern!"))
+                    raise ValidationError(
+                        self.env._("An intern cannot be a mentor for another intern!")
+                    )
                 if doctor.mentor_id == doctor:
-                    raise ValidationError(_("A doctor cannot be their own mentor!"))
+                    raise ValidationError(
+                        self.env._("A doctor cannot be their own mentor!")
+                    )
 
     def action_archive(self):
         for doctor in self:
@@ -101,11 +101,13 @@ class Doctor(models.Model):
                 ('state', '=', 'scheduled')
             ])
             if scheduled_visits_count > 0:
-                raise UserError(_(
-                    "You cannot archive doctor %s because they have %d "
-                    "scheduled visit(s). Please complete or cancel them first."
-                ) % (doctor.full_name, scheduled_visits_count))
-        return super(Doctor, self).action_archive()
+                raise UserError(self.env._(
+                    "You cannot archive doctor %(doctor_name)s"
+                    " because they have %(visit_count)d "
+                    "scheduled visit(s). Please complete or cancel them first.",
+                    doctor_name=doctor.full_name, visit_count=scheduled_visits_count
+                ))
+        return super().action_archive()
 
     @api.depends('license_date')
     def _compute_experience(self):

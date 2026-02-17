@@ -1,7 +1,6 @@
-from odoo import models, fields, api
-from odoo.tools.translate import _
-from odoo.exceptions import UserError
 from datetime import datetime, time
+from odoo import models, fields, api
+from odoo.exceptions import UserError
 
 
 class RescheduleVisitWizard(models.TransientModel):
@@ -21,14 +20,11 @@ class RescheduleVisitWizard(models.TransientModel):
     # New appointment details
     new_doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',
-        string='New Doctor'
     )
     new_date = fields.Date(
-        string='New Date',
         required=True
     )
     new_time = fields.Float(
-        string='New Time',
         required=True,
         help='Time in float format (e.g., 14.5 for 14:30)'
     )
@@ -40,9 +36,10 @@ class RescheduleVisitWizard(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(RescheduleVisitWizard, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         active_id = self.env.context.get('active_id')
-        if active_id and self.env.context.get('active_model') == 'hr.hospital.visit':
+        if (active_id
+                and self.env.context.get('active_model') == 'hr.hospital.visit'):
             visit = self.env['hr.hospital.visit'].browse(active_id)
             # Default values from the current visit
             res.update({
@@ -62,7 +59,9 @@ class RescheduleVisitWizard(models.TransientModel):
         old_visit = self.visit_id
 
         if not old_visit:
-            raise UserError(_("No active visit found to reschedule."))
+            raise UserError(
+                self.env._("No active visit found to reschedule.")
+            )
 
         # Archive or cancel the old visit
         old_visit.write({
@@ -83,7 +82,7 @@ class RescheduleVisitWizard(models.TransientModel):
 
         # Return action to open the newly created visit
         return {
-            'name': _('New Scheduled Visit'),
+            'name': self.env._('New Scheduled Visit'),
             'type': 'ir.actions.act_window',
             'res_model': 'hr.hospital.visit',
             'res_id': new_visit.id,

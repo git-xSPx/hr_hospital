@@ -37,7 +37,8 @@
         'wizard/hr_hospital_reschedule_visit_wizard_view.xml',
 
         # Menus
-        'views/hr_hospital_menus.xml'    ],
+        'views/hr_hospital_menus.xml'
+    ],
     "demo": [
         'demo/hr_hospital_doctor_specialty_demo.xml',
         'demo/hr_hospital_doctor_demo.xml',

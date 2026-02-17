@@ -1,5 +1,4 @@
 from odoo import models, fields, api
-from odoo.tools.translate import _
 from odoo.exceptions import ValidationError
 
 
@@ -10,7 +9,10 @@ class DiseaseReportWizard(models.TransientModel):
     # Filters
     doctor_ids = fields.Many2many('hr.hospital.doctor', string='Doctors')
     disease_ids = fields.Many2many('hr.hospital.disease', string='Diseases')
-    country_ids = fields.Many2many('res.country', string='Countries of Citizenship')
+    country_ids = fields.Many2many(
+        'res.country',
+        string='Countries of Citizenship'
+    )
 
     date_start = fields.Date(string='Start Date', required=True)
     date_end = fields.Date(string='End Date', required=True)
@@ -18,19 +20,21 @@ class DiseaseReportWizard(models.TransientModel):
     report_type = fields.Selection([
         ('detail', 'Detailed'),
         ('summary', 'Summary')
-    ], string='Report Type', default='detail', required=True)
+    ], default='detail', required=True)
 
     group_by = fields.Selection([
         ('doctor_id', 'Doctor'),
         ('disease_id', 'Disease'),
         ('country', 'Country')
-    ], string='Group By', default='disease_id')
+    ], default='disease_id')
 
     @api.constrains('date_start', 'date_end')
     def _check_dates(self):
         for record in self:
             if record.date_start > record.date_end:
-                raise ValidationError(_("Start date cannot be later than end date!"))
+                raise ValidationError(
+                    self.env._("Start date cannot be later than end date!")
+                )
 
     def action_generate_report(self):
         self.ensure_one()
@@ -53,7 +57,7 @@ class DiseaseReportWizard(models.TransientModel):
 
         # Return action
         action = {
-            'name': _('Disease Report Results'),
+            'name': self.env._('Disease Report Results'),
             'type': 'ir.actions.act_window',
             'res_model': 'hr.hospital.medical.diagnosis',
             'view_mode': 'list,form',

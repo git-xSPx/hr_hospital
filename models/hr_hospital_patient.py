@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.tools.translate import _
+
 
 class Patient(models.Model):
     """Model to manage patient information, inheriting from abstract person."""
@@ -10,7 +10,6 @@ class Patient(models.Model):
     # Personal Doctor link
     personal_doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',
-        string='Personal Doctor'
     )
 
     # Identification
@@ -22,7 +21,6 @@ class Patient(models.Model):
     # Contact Person link
     contact_person_id = fields.Many2one(
         comodel_name='hr.hospital.contact.person',
-        string='Contact Person'
     )
 
     # Medical Info
@@ -37,17 +35,15 @@ class Patient(models.Model):
             ('ab+', 'AB(IV) Rh+'),
             ('ab-', 'AB(IV) Rh-'),
         ],
-        string='Blood Group'
     )
-    allergies = fields.Text(string='Allergies')
+    allergies = fields.Text()
 
     # Insurance Info
     insurance_company_id = fields.Many2one(
         comodel_name='res.partner',
-        string='Insurance Company',
         domain=[('is_company', '=', True)]
     )
-    insurance_policy_number = fields.Char(string='Insurance Policy Number')
+    insurance_policy_number = fields.Char()
 
     # History (One2many relation to the history model)
     doctor_history_ids = fields.One2many(
@@ -57,15 +53,17 @@ class Patient(models.Model):
     )
 
     def write(self, vals):
-        result = super(Patient, self).write(vals)
+        result = super().write(vals)
         if 'personal_doctor_id' in vals:
             for patient in self:
                 self.env['hr.hospital.patient.doctor.history'].create({
                     'patient_id': patient.id,
                     'doctor_id': vals['personal_doctor_id'],
                     'appointment_date': fields.Date.today(),
-                    'change_date': self.env.context.get('reassign_date') or fields.Date.today(),
-                    'reason': self.env.context.get('reassign_reason') or _('Manual change'),
+                    'change_date': self.env.context.get('reassign_date')
+                                   or fields.Date.today(),
+                    'reason': self.env.context.get('reassign_reason')
+                              or self.env._('Manual change'),
                 })
         return result
 
@@ -73,4 +71,4 @@ class Patient(models.Model):
     def _compute_display_name(self):
         for patient in self:
             name = f"{patient.last_name or ''} {patient.first_name or ''}".strip()
-            patient.display_name = name or _("New Patient")
+            patient.display_name = name or self.env._("New Patient")

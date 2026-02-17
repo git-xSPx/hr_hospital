@@ -10,13 +10,11 @@ class PatientDoctorHistory(models.Model):
     # Relations
     patient_id = fields.Many2one(
         comodel_name='hr.hospital.patient',
-        string='Patient',
         required=True,
         ondelete='cascade'
     )
     doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',
-        string='Doctor',
         required=True,
         ondelete='restrict'
     )
@@ -37,6 +35,15 @@ class PatientDoctorHistory(models.Model):
         help='If true, this is the current personal doctor'
     )
 
+    @api.depends('patient_id', 'doctor_id', 'appointment_date')
+    def _compute_display_name(self):
+        for history in self:
+            patient = history.patient_id.display_name or self.env._("New Patient")
+            doctor = history.doctor_id.display_name or self.env._("No Doctor")
+            date = history.appointment_date or self.env._("No Date")
+
+            history.display_name = f"{patient} -> {doctor} ({date})"
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -51,4 +58,4 @@ class PatientDoctorHistory(models.Model):
                     if old_active_histories:
                         old_active_histories.write({'active': False})
 
-        return super(PatientDoctorHistory, self).create(vals_list)
+        return super().create(vals_list)

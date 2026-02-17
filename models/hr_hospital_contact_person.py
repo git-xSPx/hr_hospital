@@ -1,5 +1,4 @@
 from odoo import models, fields, api
-from odoo.tools.translate import _
 
 
 class ContactPerson(models.Model):
@@ -16,7 +15,6 @@ class ContactPerson(models.Model):
     )
 
     relationship = fields.Char(
-        string='Relationship',
         help='e.g., Parent, Spouse, Guardian'
     )
 
@@ -24,4 +22,4 @@ class ContactPerson(models.Model):
     def _compute_display_name(self):
         for patient in self:
             name = f"{patient.last_name or ''} {patient.first_name or ''}".strip()
-            patient.display_name = name or _("New Contact Person")
+            patient.display_name = name or self.env._("New Contact Person")

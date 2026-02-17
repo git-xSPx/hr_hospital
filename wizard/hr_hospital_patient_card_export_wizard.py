@@ -12,18 +12,15 @@ class PatientCardExportWizard(models.TransientModel):
 
     patient_id = fields.Many2one(
         comodel_name='hr.hospital.patient',
-        string='Patient',
         required=True
     )
     date_from = fields.Date(string='Start Date')
     date_to = fields.Date(string='End Date')
 
     include_diagnoses = fields.Boolean(
-        string='Include Diagnoses',
         default=True
     )
     include_recommendations = fields.Boolean(
-        string='Include Recommendations',
         default=True
     )
 
@@ -35,18 +32,19 @@ class PatientCardExportWizard(models.TransientModel):
     export_format = fields.Selection([
         ('json', 'JSON'),
         ('csv', 'CSV')
-    ], string='Export Format', default='json', required=True)
+    ], default='json', required=True)
 
     # Fields to store the generated file
     file_data = fields.Binary(string='File', readonly=True)
-    file_name = fields.Char(string='File Name', readonly=True)
+    file_name = fields.Char(readonly=True)
 
     @api.model
     def default_get(self, fields_list):
         """Set default patient and their language from context."""
-        res = super(PatientCardExportWizard, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         active_id = self.env.context.get('active_id')
-        if active_id and self.env.context.get('active_model') == 'hr.hospital.patient':
+        if (active_id
+                and self.env.context.get('active_model') == 'hr.hospital.patient'):
             patient = self.env['hr.hospital.patient'].browse(active_id)
             res.update({
                 'patient_id': patient.id,

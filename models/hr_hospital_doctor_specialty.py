@@ -16,11 +16,10 @@ class DoctorSpecialty(models.Model):
         size=10,
         required=True
     )
-    description = fields.Text(string='Description')
+    description = fields.Text()
 
     # Status
     active = fields.Boolean(
-        string='Active',
         default=True
     )
 

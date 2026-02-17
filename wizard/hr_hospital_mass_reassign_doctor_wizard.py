@@ -8,7 +8,6 @@ class MassReassignDoctorWizard(models.TransientModel):
     # New doctor for all patients
     new_doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',
-        string='New Doctor',
         required=True,
         domain=[('is_intern', '=', False)]
     )
@@ -21,7 +20,6 @@ class MassReassignDoctorWizard(models.TransientModel):
     )
 
     change_date = fields.Date(
-        string='Change Date',
         default=fields.Date.context_today,
         required=True
     )
@@ -33,10 +31,11 @@ class MassReassignDoctorWizard(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(MassReassignDoctorWizard, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         # Get active patients from context
         active_ids = self.env.context.get('active_ids')
-        if active_ids and self.env.context.get('active_model') == 'hr.hospital.patient':
+        if (active_ids
+                and self.env.context.get('active_model') == 'hr.hospital.patient'):
             res.update({'patient_ids': [(6, 0, active_ids)]})
         return res
 

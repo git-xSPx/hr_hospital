@@ -1,6 +1,5 @@
 from odoo import models, fields, api
-from odoo.tools.translate import _
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import ValidationError
 
 
 class Disease(models.Model):
@@ -14,7 +13,7 @@ class Disease(models.Model):
     _rec_name = 'complete_name'  # Show full path in searches
     _order = 'complete_name'
 
-    name = fields.Char(string='Name', required=True)
+    name = fields.Char(required=True)
 
     # Special field for fast hierarchy traversal
     parent_path = fields.Char(index=True, unaccent=False)
@@ -45,10 +44,10 @@ class Disease(models.Model):
         ('medium', 'Medium'),
         ('high', 'High'),
         ('critical', 'Critical'),
-    ], default='low', string='Danger Level')
+    ], default='low')
 
     is_contagious = fields.Boolean(string='Contagious')
-    symptoms = fields.Text(string='Symptoms')
+    symptoms = fields.Text()
 
     country_ids = fields.Many2many(
         comodel_name='res.country',
@@ -58,7 +57,7 @@ class Disease(models.Model):
     @api.constrains('parent_id')
     def _check_disease_recursion(self):
         if not self._check_recursion():
-            raise ValidationError(_("Error! You cannot create recursive hierarchy."))
+            raise ValidationError(self.env._("Error! You cannot create recursive hierarchy."))
 
     @api.depends('name', 'parent_id.complete_name')
     def _compute_complete_name(self):

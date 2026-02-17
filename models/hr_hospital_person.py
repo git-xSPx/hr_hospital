@@ -1,7 +1,6 @@
-from odoo import models, fields, api
-from odoo.tools.translate import _
-from odoo.exceptions import ValidationError
 from datetime import date
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
 
 
@@ -12,19 +11,18 @@ class Person(models.AbstractModel):
     _inherit = ['image.mixin']
 
     # Full Name details
-    first_name = fields.Char(string='First Name', required=True)
-    last_name = fields.Char(string='Last Name', required=True)
-    middle_name = fields.Char(string='Middle Name')
+    first_name = fields.Char(required=True)
+    last_name = fields.Char(required=True)
+    middle_name = fields.Char()
 
     full_name = fields.Char(
-        string='Full Name',
         compute='_compute_full_name',
         store=True  # Store in DB for search and sorting
     )
 
     # Contact Information
-    phone = fields.Char(string='Phone')
-    email = fields.Char(string='Email')
+    phone = fields.Char()
+    email = fields.Char()
 
     gender = fields.Selection(
         selection=[
@@ -32,14 +30,12 @@ class Person(models.AbstractModel):
             ('female', 'Female'),
             ('other', 'Other')
         ],
-        string='Gender',
         default='male'
     )
 
     # Personal Details
     birthday = fields.Date(string='Date of Birth')
     age = fields.Integer(
-        string='Age',
         compute='_compute_age',
         help='Calculated age based on birthday'
     )
@@ -62,10 +58,9 @@ class Person(models.AbstractModel):
     def _check_birthday(self):
         for person in self:
             if person.birthday > fields.Date.today():
-                raise ValidationError(_("Birthday cannot be in the future!"))
+                raise ValidationError(self.env._("Birthday cannot be in the future!"))
             if person.birthday == fields.Date.today():
-                raise ValidationError(_("The person must be at least one day old!"))
-
+                raise ValidationError(self.env._("The person must be at least one day old!"))
 
     @api.depends('last_name', 'first_name', 'middle_name')
     def _compute_full_name(self):
