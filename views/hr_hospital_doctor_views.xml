@@ -85,9 +85,73 @@
                                 </list>
                             </field>
                         </page>
+                        <page string="Interns" name="interns" invisible="is_intern">
+                            <field name="intern_ids" mode="kanban">
+                                <kanban>
+                                    <templates>
+                                        <t t-name="card">
+                                            <div class="oe_kanban_global_click">
+                                                <div class="oe_kanban_details">
+                                                    <strong class="o_kanban_record_title">
+                                                        <field name="display_name"/>
+                                                    </strong>
+                                                    <div class="o_kanban_record_subtitle">
+                                                        <field name="phone"/>
+                                                    </div>
+                                                    <div>
+                                                        <field name="email"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_doctor_kanban" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.kanban</field>
+        <field name="model">hr.hospital.doctor</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="specialty_id">
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <div class="d-flex mb-2">
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title fs-5">
+                                        <field name="display_name"/>
+                                    </strong>
+                                    <div class="o_kanban_record_subtitle text-muted">
+                                        <field name="specialty_id"/>
+                                    </div>
+                                    <div invisible="not phone">
+                                        <i class="fa fa-phone" title="Phone"/> <field name="phone"/>
+                                    </div>
+                                    <div invisible="not email">
+                                        <i class="fa fa-envelope" title="Email"/> <field name="email"/>
+                                    </div>
+                                </div>
+                                <div class="ms-auto">
+                                    <field name="image_128" widget="image" class="oe_avatar" options="{'zoom': true}"/>
+                                </div>
+                            </div>
+                            <div class="mt-auto">
+                                <button name="action_schedule_visit"
+                                        type="object"
+                                        class="btn btn-primary btn-sm">
+                                    Schedule Visit
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 
@@ -100,17 +164,19 @@
                        filter_domain="['|', ('last_name', 'ilike', self), ('first_name', 'ilike', self)]"/>
                 <field name="specialty_id"/>
                 <field name="license_number"/>
-                <field name="is_intern"/>
 
                 <separator/>
-                <filter string="Interns" name="interns" domain="[('is_intern', '=', True)]"/>
-                <filter string="Fully Licensed" name="licensed" domain="[('is_intern', '=', False)]"/>
-                <filter string="High Rating" name="high_rating" domain="[('rating', '>=', 4.0)]"/>
+                <filter string="Interns" name="filter_interns" domain="[('is_intern', '=', True)]"/>
+                <filter string="Mentors" name="filter_mentors" domain="[('intern_ids', '!=', False)]"/>
 
-<!--                <group expand="0" string="Group By">-->
-<!--                    <filter string="Specialty" name="group_specialty" context="{'group_by': 'specialty_id'}"/>-->
-<!--                    <filter string="Gender" name="group_gender" context="{'group_by': 'gender'}"/>-->
-<!--                </group>-->
+                <separator/>
+                <filter string="Fully Licensed" name="licensed" domain="[('is_intern', '=', False)]"/>
+                <filter string="High Rating" name="high_rating" domain="[('rating', '&gt;=', 4.0)]"/>
+
+                <group>
+                    <filter string="Specialty" name="group_specialty" context="{'group_by': 'specialty_id'}"/>
+                    <filter string="Gender" name="group_gender" context="{'group_by': 'gender'}"/>
+                </group>
             </search>
         </field>
     </record>
@@ -118,7 +184,7 @@
     <record id="action_hr_hospital_doctor" model="ir.actions.act_window">
         <field name="name">Doctors</field>
         <field name="res_model">hr.hospital.doctor</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,kanban</field>
         <field name="search_view_id" ref="view_hr_hospital_doctor_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

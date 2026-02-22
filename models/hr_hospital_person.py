@@ -40,7 +40,6 @@ class Person(models.AbstractModel):
         help='Calculated age based on birthday'
     )
 
-    # Computed Age (Logic will be added in step 6.2)
     country_id = fields.Many2one(
         comodel_name='res.country',
         string='Citizenship'

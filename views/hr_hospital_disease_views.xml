@@ -70,10 +70,14 @@
                 <filter string="Contagious" name="contagious" domain="[('is_contagious', '=', True)]"/>
                 <filter string="Critical Danger" name="critical" domain="[('danger_level', '=', 'critical')]"/>
 
-<!--                <group expand="0" string="Group By">-->
-<!--                    <filter string="Danger Level" name="group_danger" context="{'group_by': 'danger_level'}"/>-->
-<!--                    <filter string="Parent Category" name="group_parent" context="{'group_by': 'parent_id'}"/>-->
-<!--                </group>-->
+                <group>
+                    <filter string="Danger Level" name="group_danger" context="{'group_by': 'danger_level'}"/>
+                </group>
+
+                <searchpanel>
+                    <field name="parent_id" icon="fa-folder" enable_counters="1" string="Categories"/>
+                </searchpanel>
+
             </search>
         </field>
     </record>

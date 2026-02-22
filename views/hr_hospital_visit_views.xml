@@ -109,18 +109,54 @@
         <field name="name">hr.hospital.visit.pivot</field>
         <field name="model">hr.hospital.visit</field>
         <field name="arch" type="xml">
-            <pivot string="Visit Analysis">
+            <pivot string="Visit Analysis" display_quantity="1">
                 <field name="doctor_id" type="row"/>
-                <field name="planned_date" interval="month" type="col"/>
-                <field name="visit_cost" type="measure"/>
+                <field name="state" type="col"/>
             </pivot>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_visit_search" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.search</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <search string="Visits">
+                <field name="patient_id"
+                       string="Patient Name"
+                       filter_domain="[('patient_id.full_name', 'ilike', self)]"/>
+                <field name="doctor_id"
+                       string="Doctor Name"
+                       filter_domain="[('doctor_id.full_name', 'ilike', self)]"/>
+
+                <separator/>
+
+                <filter string="Scheduled visits" name="state" domain="[('state','=','scheduled')]"/>
+                <filter string="Planned Date" name="filter_planned_date" date="planned_date"/>
+                <filter string="This Month" name="filter_this_month"
+                    domain="[
+                        ('planned_date', '&gt;=', context_today().strftime('%Y-%m-01')),
+                        ('planned_date', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01'))
+                    ]"/>
+
+                <group>
+                    <filter string="Visit state" name="group_by_state" context="{'group_by':'state'}"/>
+                    <filter string="Visit type" name="group_by_visit_type" context="{'group_by':'visit_type'}"/>
+                </group>
+
+                <searchpanel>
+                    <field name="doctor_id" string="Filter by Doctors" icon="fa-user-md"/>
+                </searchpanel>
+
+            </search>
         </field>
     </record>
 
     <record id="action_hr_hospital_visit" model="ir.actions.act_window">
         <field name="name">Visits</field>
         <field name="res_model">hr.hospital.visit</field>
-        <field name="view_mode">list,calendar,form,pivot</field> <field name="help" type="html">
+        <field name="view_mode">list,calendar,form,pivot</field>
+        <field name="context">{'search_default_filter_this_month': 1}</field>
+        <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create the first patient visit!
             </p>

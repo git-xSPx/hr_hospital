@@ -56,6 +56,14 @@ class MedicalDiagnosis(models.Model):
         string='Severity Degree'
     )
 
+    # Related field for pivot building
+    disease_type_id = fields.Many2one(
+        comodel_name='hr.hospital.disease',
+        related='disease_id.parent_id',
+        string='Disease Type',
+        store=True
+    )
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:

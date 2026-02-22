@@ -39,5 +39,27 @@
             <field name="approval_date" eval="datetime.now().strftime('%Y-%m-%d')"/>
         </record>
 
+<record id="diag_5" model="hr.hospital.medical.diagnosis">
+            <field name="visit_id" ref="visit_1"/>
+            <field name="disease_id" ref="disease_covid19"/>
+            <field name="severity">critical</field>
+            <field name="description">Complications after the main illness.</field>
+            <field name="treatment"><![CDATA[<p>Intensive care and isolation.</p>]]></field>
+            <field name="is_approved" eval="True"/>
+            <field name="approved_doctor_id" ref="doctor_house"/>
+            <field name="approval_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="diag_6" model="hr.hospital.medical.diagnosis">
+            <field name="visit_id" ref="visit_2"/>
+            <field name="disease_id" ref="disease_cholera"/>
+            <field name="severity">severe</field>
+            <field name="description">Suspected infection after traveling.</field>
+            <field name="treatment"><![CDATA[<p>Hydration and antibiotics.</p>]]></field>
+            <field name="is_approved" eval="True"/>
+            <field name="approved_doctor_id" ref="doctor_grey"/>
+            <field name="approval_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d')"/>
+        </record>
+
     </data>
 </odoo>

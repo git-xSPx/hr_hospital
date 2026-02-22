@@ -62,6 +62,13 @@ class Doctor(models.Model):
         string='Work Schedule'
     )
 
+    intern_ids = fields.One2many(
+        comodel_name='hr.hospital.doctor',
+        inverse_name='mentor_id',
+        string='Interns',
+        help='List of interns assigned to this mentor'
+    )
+
     _license_number_unique = models.Constraint(
         'UNIQUE(license_number)',
         'The license number must be unique!')
@@ -128,3 +135,20 @@ class Doctor(models.Model):
                 doctor.display_name = f"{name} ({doctor.specialty_id.name})"
             else:
                 doctor.display_name = name
+
+    def action_schedule_visit(self):
+        self.ensure_one()
+        context = {
+            'default_doctor_id': self.id,
+        }
+
+        if self.specialty_id:
+            context['default_specialty_id'] = self.specialty_id.id
+
+        return {
+            'name': self.env._('Schedule Visit'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.hospital.visit',
+            'view_mode': 'form',
+            'context': context,
+        }

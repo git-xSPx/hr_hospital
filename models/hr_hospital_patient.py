@@ -72,3 +72,49 @@ class Patient(models.Model):
         for patient in self:
             name = f"{patient.last_name or ''} {patient.first_name or ''}".strip()
             patient.display_name = name or self.env._("New Patient")
+
+    def action_view_visits(self):
+        self.ensure_one()
+        return {
+            'name': self.env._('Patient Visits'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.hospital.visit',
+            'view_mode': 'list,form',
+            'domain': [('patient_id', '=', self.id)],
+            'context': {'default_patient_id': self.id},
+        }
+
+    def action_view_diagnoses(self):
+        self.ensure_one()
+        return {
+            'name': self.env._('Patient Diagnoses'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.hospital.medical.diagnosis',
+            'view_mode': 'list,form',
+            'domain': [('visit_id.patient_id', '=', self.id)],
+        }
+
+    def action_schedule_visit(self):
+        self.ensure_one()
+        context = {
+            'default_patient_id': self.id,
+        }
+
+        if self.personal_doctor_id:
+            context['default_doctor_id'] = self.personal_doctor_id.id
+            if self.personal_doctor_id.specialty_id:
+                context['default_specialty_id'] = self.personal_doctor_id.specialty_id.id
+
+        if self.lang_id:
+            context['default_patient_lang_id'] = self.lang_id.id
+
+        if self.country_id:
+            context['default_patient_country_id'] = self.country_id.id
+
+        return {
+            'name': self.env._('Schedule Visit'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.hospital.visit',
+            'view_mode': 'form',
+            'context': context,
+        }

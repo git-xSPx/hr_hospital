@@ -36,6 +36,17 @@ class DiseaseReportWizard(models.TransientModel):
                     self.env._("Start date cannot be later than end date!")
                 )
 
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+
+        if self.env.context.get('active_model') == 'hr.hospital.doctor':
+            active_ids = self.env.context.get('active_ids')
+            if active_ids:
+                res['doctor_ids'] = [(6, 0, active_ids)]
+
+        return res
+
     def action_generate_report(self):
         self.ensure_one()
 

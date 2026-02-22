@@ -7,8 +7,13 @@
             <form string="Generate Disease Report">
                 <group>
                     <group string="Period">
-                        <field name="date_start"/>
-                        <field name="date_end"/>
+                        <field name="date_start"
+                               string="Period"
+                               widget="daterange"
+                               options="{'end_date_field': 'date_end', 'always_range': '1'}"
+                               reqvired="date_start or date_end"
+                        />
+                        <field name="date_end" invisible="1" reqvired="date_start"/>
                     </group>
                     <group string="Display Options">
                         <field name="report_type" widget="radio"/>
@@ -37,5 +42,9 @@
         <field name="res_model">hr.hospital.disease.report.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+        <field name="binding_model_id" ref="model_hr_hospital_doctor"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_type">report</field>
     </record>
+
 </odoo>

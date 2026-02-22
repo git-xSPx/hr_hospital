@@ -21,7 +21,23 @@
         <field name="model">hr.hospital.patient</field>
         <field name="arch" type="xml">
             <form string="Patient Card">
+                <header>
+                    <button name="action_schedule_visit"
+                            string="Schedule Visit"
+                            type="object"
+                            class="oe_highlight"/>
+                </header>
+
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_visits" type="object" class="oe_stat_button" icon="fa-calendar">
+                            <span class="o_stat_text">Visits</span>
+                        </button>
+                        <button name="action_view_diagnoses" type="object" class="oe_stat_button" icon="fa-stethoscope">
+                            <span class="o_stat_text">Diagnoses</span>
+                        </button>
+                    </div>
+
                     <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
 
                     <div class="oe_title">
@@ -32,6 +48,7 @@
                                 <field name="first_name" placeholder="First Name" class="oe_inline"/>
                             </div>
                         </h1>
+                        <field name="middle_name" placeholder="Middle Name"/>
                     </div>
 
                     <group>
@@ -84,15 +101,17 @@
         <field name="model">hr.hospital.patient</field>
         <field name="arch" type="xml">
             <search string="Patients">
-                <field name="last_name"/>
-                <field name="first_name"/>
-                <field name="personal_doctor_id"/>
+                <field name="full_name"
+                       string="Name or Phone"
+                       filter_domain="['|', ('full_name', 'ilike', self), ('phone', 'ilike', self)]"/>
+
                 <field name="blood_group"/>
 
-<!--                <group string="Group By">-->
-<!--                    <filter string="Doctor" name="group_doctor" context="{'group_by': 'personal_doctor_id'}"/>-->
-<!--                    <filter string="Blood Group" name="group_blood" context="{'group_by': 'blood_group'}"/>-->
-<!--                </group>-->
+                <group>
+                    <filter string="Doctor" name="group_doctor" context="{'group_by': 'personal_doctor_id'}"/>
+                    <filter string="Blood Group" name="group_blood" context="{'group_by': 'blood_group'}"/>
+                </group>
+
             </search>
         </field>
     </record>
@@ -101,7 +120,7 @@
         <field name="name">Patients</field>
         <field name="res_model">hr.hospital.patient</field>
         <field name="view_mode">list,form</field>
-<!--        <field name="search_view_id" ref="view_hr_hospital_patient_search"/>-->
+        <field name="search_view_id" ref="view_hr_hospital_patient_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Add your first patient
