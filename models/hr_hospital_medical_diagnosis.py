@@ -60,8 +60,14 @@ class MedicalDiagnosis(models.Model):
     disease_type_id = fields.Many2one(
         comodel_name='hr.hospital.disease',
         related='disease_id.parent_id',
-        string='Disease Type',
         store=True
+    )
+
+    # Related field for Patient view
+    patient_id = fields.Many2one(
+        comodel_name='hr.hospital.patient',
+        related='visit_id.patient_id',
+        store=True,
     )
 
     @api.model_create_multi

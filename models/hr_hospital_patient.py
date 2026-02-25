@@ -52,6 +52,14 @@ class Patient(models.Model):
         string='Personal Doctor History'
     )
 
+    # History of diagnoses
+    diagnosis_ids = fields.One2many(
+        comodel_name='hr.hospital.medical.diagnosis',
+        inverse_name='patient_id',
+        string='Diagnoses History',
+        readonly=True
+    )
+
     def write(self, vals):
         result = super().write(vals)
         if 'personal_doctor_id' in vals:

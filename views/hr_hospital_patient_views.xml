@@ -90,6 +90,21 @@
                                 </list>
                             </field>
                         </page>
+                        <page string="Diagnoses History" name="diagnoses_history">
+                            <field name="diagnosis_ids" readonly="1">
+                                <list decoration-danger="severity == 'critical'"
+                                      decoration-warning="severity == 'severe'">
+                                    <field name="approval_date"/>
+                                    <field name="disease_id"/>
+                                    <field name="approved_doctor_id"/>
+                                    <field name="severity" widget="badge"
+                                           decoration-danger="severity == 'critical'"
+                                           decoration-warning="severity == 'severe'"
+                                           decoration-info="severity == 'medium'"/>
+                                    <field name="is_approved" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
             </form>

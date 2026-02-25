@@ -75,7 +75,7 @@
                 </group>
 
                 <searchpanel>
-                    <field name="parent_id" icon="fa-folder" enable_counters="1" string="Categories"/>
+                    <field name="parent_id" icon="fa-folder" enable_counters="1" hierarchize="1" string="Categories"/>
                 </searchpanel>
 
             </search>
