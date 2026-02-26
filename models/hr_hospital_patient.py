@@ -68,10 +68,14 @@ class Patient(models.Model):
                     'patient_id': patient.id,
                     'doctor_id': vals['personal_doctor_id'],
                     'appointment_date': fields.Date.today(),
-                    'change_date': self.env.context.get('reassign_date')
-                                   or fields.Date.today(),
-                    'reason': self.env.context.get('reassign_reason')
-                              or self.env._('Manual change'),
+                    'change_date': (
+                        self.env.context.get('reassign_date')
+                        or fields.Date.today()
+                    ),
+                    'reason': (
+                        self.env.context.get('reassign_reason')
+                        or self.env._('Manual change')
+                    ),
                 })
         return result
 

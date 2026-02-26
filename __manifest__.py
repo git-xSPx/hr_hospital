@@ -37,6 +37,10 @@
         'wizard/hr_hospital_mass_reassign_doctor_wizard_view.xml',
         'wizard/hr_hospital_patient_card_export_wizard_view.xml',
 
+        # Repports
+        'report/hr_hospital_doctor_report_templates.xml',
+        'report/hr_hospital_doctor_report.xml',
+
         # Menus
         'views/hr_hospital_menus.xml'
     ],

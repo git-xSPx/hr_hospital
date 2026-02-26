@@ -146,17 +146,20 @@ class Visit(models.Model):
                             self.env._('You cannot change Doctor for completed visit!')
                         )
 
-                    if ('actual_date' in vals
-                        and fields.Datetime.to_datetime(vals['actual_date']) != visit.actual_date):
+                    if (
+                        'actual_date' in vals
+                        and fields.Datetime.to_datetime(vals['actual_date']) != visit.actual_date
+                    ):
 
                         raise UserError(
                             self.env._("You can't change Actual date"
                                        " or time for completed visit!")
                         )
 
-                    if ('planned_date' in vals
-                        and fields.Datetime.to_datetime(vals['planned_date'])
-                            != visit.planned_date):
+                    if (
+                        'planned_date' in vals
+                        and fields.Datetime.to_datetime(vals['planned_date']) != visit.planned_date
+                    ):
                         raise UserError(
                             self.env._("You can't change Planned date"
                                        " or time for completed visit!")
@@ -186,9 +189,9 @@ class Visit(models.Model):
                     'title': self.env._("Patient Allergy Warning!"),
                     'message': self.env._(
                         "Note: Patient %(name)s has the"
-                               " following allergies: \n\n %(allergies)s",
-                               name=self.patient_id.full_name,
-                               allergies=self.patient_id.allergies
+                        " following allergies: \n\n %(allergies)s",
+                        name=self.patient_id.full_name,
+                        allergies=self.patient_id.allergies
                     ),
                     'type': 'notification',
                 }
