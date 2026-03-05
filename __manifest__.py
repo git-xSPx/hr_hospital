@@ -13,7 +13,9 @@
     ],
 
     "data": [
+        'security/hr_hospital_groups.xml',
         'security/ir.model.access.csv',
+        'security/hr_hospital_rules.xml',
         'data/hr_hospital_disease_data.xml',
 
         # Main models

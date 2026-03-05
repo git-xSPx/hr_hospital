@@ -7,6 +7,12 @@ class Patient(models.Model):
     _description = 'Hospital Patient'
     _inherit = 'hr.hospital.person'
 
+    # System integration
+    user_id = fields.Many2one(
+        comodel_name='res.users',
+        help='System user account for this patient'
+    )
+
     # Personal Doctor link
     personal_doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',

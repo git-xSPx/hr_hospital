@@ -72,6 +72,7 @@
                                     <field name="birthday"/>
                                     <field name="age"/>
                                     <field name="gender"/>
+                                    <field name="user_id" options="{'no_create': True}" groups="hr_hospital.group_hr_hospital_manager"/>
                                 </group>
                                 <group>
                                     <field name="phone" widget="phone"/>
