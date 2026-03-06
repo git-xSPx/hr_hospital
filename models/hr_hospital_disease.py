@@ -13,7 +13,10 @@ class Disease(models.Model):
     _rec_name = 'complete_name'  # Show full path in searches
     _order = 'complete_name'
 
-    name = fields.Char(required=True)
+    name = fields.Char(
+        required=True,
+        translate=True
+    )
 
     # Special field for fast hierarchy traversal
     parent_path = fields.Char(index=True, unaccent=False)
@@ -22,7 +25,8 @@ class Disease(models.Model):
         string='Full Name',
         compute='_compute_complete_name',
         recursive=True,
-        store=True
+        store=True,
+        translate=True
     )
 
     parent_id = fields.Many2one(
