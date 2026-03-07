@@ -44,11 +44,11 @@
         </record>
 
         <record id="base.user_root" model="res.users">
-            <field name="groups_id" eval="[(4, ref('hr_hospital.group_hr_hospital_administrator'))]"/>
+            <field name="group_ids" eval="[(4, ref('hr_hospital.group_hr_hospital_administrator'))]"/>
         </record>
 
         <record id="base.user_admin" model="res.users">
-            <field name="groups_id" eval="[(4, ref('hr_hospital.group_hr_hospital_administrator'))]"/>
+            <field name="group_ids" eval="[(4, ref('hr_hospital.group_hr_hospital_administrator'))]"/>
         </record>
 
     </data>

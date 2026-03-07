@@ -1,7 +1,7 @@
 {
     "name": "Hospital visit",
     "summary": "Odoo module for recording patient visits",
-    "version": "19.0.1.4.1",
+    "version": "19.0.1.6.1",
     "category": "Human Resources",
     "website": "https://github.com/git-xSPx/hr_hospital",
     "author": "Serhii Pidopryhora, "
